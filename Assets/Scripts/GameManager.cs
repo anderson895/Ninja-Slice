@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.IO;
+using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour
 {
@@ -35,6 +37,9 @@ public class GameManager : MonoBehaviour
 
     private int[] answers = { 10, 12, 11, 12, 21, 8, 19, 20, 19, 26 };
 
+    private string filePath;
+    private List<UserData> userList;
+
     private void Awake()
     {
         // Set up singleton instance
@@ -45,6 +50,20 @@ public class GameManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
+        }
+
+        filePath = Application.persistentDataPath + "/userdata.json";
+
+        // Load existing user data if the file exists
+        if (File.Exists(filePath))
+        {
+            string json = File.ReadAllText(filePath);
+            userList = JsonUtility.FromJson<UserDataList>(json).users;
+            Debug.Log("Loaded " + userList.Count + " users from JSON.");
+        }
+        else
+        {
+            userList = new List<UserData>(); // Initialize empty list if file does not exist
         }
     }
 
@@ -96,7 +115,6 @@ public class GameManager : MonoBehaviour
         PlayerManagement.isGameOver = true;
         Debug.Log("Game Over!");
         questionText.text = "Game Over!";
-        // Optionally disable fruit slicing or other gameplay elements
     }
 
     public int GetCurrentAnswer()
@@ -124,7 +142,52 @@ public class GameManager : MonoBehaviour
             PlayerManagement.isVictory = true;
             questionText.text = "Level Complete!";
             Debug.Log("All questions answered. Level complete!");
+
+            // Pass the completed level to the update method
+            UpdateUserLevel(2); // Adjust to match the actual level number
+
+            // Save the updated user data back to the file
+            SaveUserData();
         }
+    }
+
+
+    private void UpdateUserLevel(int completedLevel)
+    {
+        // Get user ID from PlayerPrefs
+        int userId = PlayerPrefs.GetInt("LoggedInUserId");
+
+        // Find the user by ID
+        UserData foundUser = userList.Find(user => user.id == userId);
+
+        if (foundUser != null)
+        {
+            // Only update the level if the completed level is higher than the current level
+            if (completedLevel > foundUser.currentLevel)
+            {
+                foundUser.currentLevel = completedLevel;
+                Debug.Log($"User {foundUser.username} level updated to {foundUser.currentLevel}");
+            }
+            else
+            {
+                Debug.Log($"Completed level ({completedLevel}) is not higher than current level ({foundUser.currentLevel}). No update made.");
+            }
+        }
+        else
+        {
+            Debug.LogError("User not found!");
+        }
+    }
+
+
+    private void SaveUserData()
+    {
+        // Convert the list of users to JSON format
+        string json = JsonUtility.ToJson(new UserDataList { users = userList });
+
+        // Save the updated user data to the file
+        File.WriteAllText(filePath, json);
+        Debug.Log("User data saved to file.");
     }
 
     private void UpdateUI()
@@ -143,5 +206,21 @@ public class GameManager : MonoBehaviour
         {
             Debug.LogWarning("No more questions to display or QuestionText is null.");
         }
+    }
+
+    // Wrapper class for JSON serialization of a list of users
+    [System.Serializable]
+    public class UserDataList
+    {
+        public List<UserData> users;
+    }
+
+    [System.Serializable]
+    public class UserData
+    {
+        public int id;
+        public string username;
+        public int age;
+        public int currentLevel; // Added field for current level
     }
 }

@@ -1,0 +1,44 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.unity.androidnotifications" >
+4
+5    <uses-sdk android:minSdkVersion="22" />
+5-->E:\Downloads\Ninja Slice\Ninja Slice\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\mobilenotifications.androidlib\src\main\AndroidManifest.xml
+6
+7    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+7-->E:\Downloads\Ninja Slice\Ninja Slice\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\mobilenotifications.androidlib\src\main\AndroidManifest.xml:11:3-75
+7-->E:\Downloads\Ninja Slice\Ninja Slice\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\mobilenotifications.androidlib\src\main\AndroidManifest.xml:11:20-72
+8
+9    <application>
+9-->E:\Downloads\Ninja Slice\Ninja Slice\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\mobilenotifications.androidlib\src\main\AndroidManifest.xml:2:3-10:17
+10        <receiver
+10-->E:\Downloads\Ninja Slice\Ninja Slice\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\mobilenotifications.androidlib\src\main\AndroidManifest.xml:3:5-113
+11            android:name="com.unity.androidnotifications.UnityNotificationManager"
+11-->E:\Downloads\Ninja Slice\Ninja Slice\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\mobilenotifications.androidlib\src\main\AndroidManifest.xml:3:15-85
+12            android:exported="false" />
+12-->E:\Downloads\Ninja Slice\Ninja Slice\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\mobilenotifications.androidlib\src\main\AndroidManifest.xml:3:86-110
+13        <receiver
+13-->E:\Downloads\Ninja Slice\Ninja Slice\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\mobilenotifications.androidlib\src\main\AndroidManifest.xml:4:5-8:16
+14            android:name="com.unity.androidnotifications.UnityNotificationRestartReceiver"
+14-->E:\Downloads\Ninja Slice\Ninja Slice\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\mobilenotifications.androidlib\src\main\AndroidManifest.xml:4:15-93
+15            android:enabled="false"
+15-->E:\Downloads\Ninja Slice\Ninja Slice\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\mobilenotifications.androidlib\src\main\AndroidManifest.xml:4:94-117
+16            android:exported="false" >
+16-->E:\Downloads\Ninja Slice\Ninja Slice\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\mobilenotifications.androidlib\src\main\AndroidManifest.xml:4:118-142
+17            <intent-filter>
+17-->E:\Downloads\Ninja Slice\Ninja Slice\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\mobilenotifications.androidlib\src\main\AndroidManifest.xml:5:7-7:23
+18                <action android:name="android.intent.action.BOOT_COMPLETED" />
+18-->E:\Downloads\Ninja Slice\Ninja Slice\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\mobilenotifications.androidlib\src\main\AndroidManifest.xml:6:9-71
+18-->E:\Downloads\Ninja Slice\Ninja Slice\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\mobilenotifications.androidlib\src\main\AndroidManifest.xml:6:17-68
+19            </intent-filter>
+20        </receiver>
+21
+22        <meta-data
+22-->E:\Downloads\Ninja Slice\Ninja Slice\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\mobilenotifications.androidlib\src\main\AndroidManifest.xml:9:5-99
+23            android:name="com.unity.androidnotifications.exact_scheduling"
+23-->E:\Downloads\Ninja Slice\Ninja Slice\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\mobilenotifications.androidlib\src\main\AndroidManifest.xml:9:16-78
+24            android:value="0" />
+24-->E:\Downloads\Ninja Slice\Ninja Slice\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\mobilenotifications.androidlib\src\main\AndroidManifest.xml:9:79-96
+25    </application>
+26
+27</manifest>

@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class PlayerManagement : MonoBehaviour
 {
-
     public static bool isGameOver;
     public static bool isVictory;
     public GameObject gameOverScreen;
@@ -15,25 +14,38 @@ public class PlayerManagement : MonoBehaviour
     public void Awake()
     {
         isGameOver = false;
+        isVictory = false;
+        Time.timeScale = 1; // Ensure the game starts unpaused
     }
 
     void Update()
     {
         if (isGameOver)
         {
-            Time.timeScale = 0;
-            gameOverScreen.SetActive(true);
+            HandleGameOver();
         }
 
-         if (isVictory)
+        if (isVictory)
         {
-            Time.timeScale = 0;
-            victoryScreen.SetActive(true);
+            HandleVictory();
         }
+    }
+
+    private void HandleGameOver()
+    {
+        Time.timeScale = 0;
+        gameOverScreen.SetActive(true);
+    }
+
+    private void HandleVictory()
+    {
+        Time.timeScale = 0;
+        victoryScreen.SetActive(true);
     }
 
     public void ReplayLevel()
     {
+        ResetGameState();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
@@ -51,12 +63,25 @@ public class PlayerManagement : MonoBehaviour
 
     public void GotoMenu()
     {
-        SceneManager.LoadScene(0);
+        ResetGameState();
+        SceneManager.LoadScene(24); // Replace with your actual main menu scene index
     }
 
     public void NextLevel()
     {
-        SceneManager.LoadScene(0);
+        ResetGameState();
+        SceneManager.LoadScene(0); // Replace with your actual next level scene index
     }
 
+    private void ResetGameState()
+    {
+        Time.timeScale = 1; // Reset time scale
+        isGameOver = false;
+        isVictory = false;
+
+        // Deactivate all screens
+        gameOverScreen.SetActive(false);
+        pauseMenuScreen.SetActive(false);
+        victoryScreen.SetActive(false);
+    }
 }

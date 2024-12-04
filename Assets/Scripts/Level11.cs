@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
+using System.Collections.Generic;
+using System.IO;
 
 public class Level11 : MonoBehaviour
 {
@@ -35,6 +36,9 @@ public class Level11 : MonoBehaviour
 
     private int[] answers = { 3, 28, 18, 30, 16, 18, 28, 9, 40, 21 };
 
+    private string filePath;
+    private List<UserData> userList;
+
     private void Awake()
     {
         // Set up singleton instance
@@ -45,6 +49,20 @@ public class Level11 : MonoBehaviour
         else
         {
             Destroy(gameObject);
+        }
+
+        filePath = Application.persistentDataPath + "/userdata.json";
+
+        // Load existing user data if the file exists
+        if (File.Exists(filePath))
+        {
+            string json = File.ReadAllText(filePath);
+            userList = JsonUtility.FromJson<UserDataList>(json).users;
+            Debug.Log("Loaded " + userList.Count + " users from JSON.");
+        }
+        else
+        {
+            userList = new List<UserData>();
         }
     }
 
@@ -96,7 +114,6 @@ public class Level11 : MonoBehaviour
         PlayerManagement.isGameOver = true;
         Debug.Log("Game Over!");
         questionText.text = "Game Over!";
-        // Optionally disable fruit slicing or other gameplay elements
     }
 
     public int GetCurrentAnswer()
@@ -124,6 +141,12 @@ public class Level11 : MonoBehaviour
             PlayerManagement.isVictory = true;
             questionText.text = "Level Complete!";
             Debug.Log("All questions answered. Level complete!");
+
+            // Call UpdateUserLevel with the completed level (e.g., 11)
+            UpdateUserLevel(12);
+
+            // Save updated user data
+            SaveUserData();
         }
     }
 
@@ -143,5 +166,55 @@ public class Level11 : MonoBehaviour
         {
             Debug.LogWarning("No more questions to display or QuestionText is null.");
         }
+    }
+
+    private void UpdateUserLevel(int completedLevel)
+    {
+        // Get user ID from PlayerPrefs
+        int userId = PlayerPrefs.GetInt("LoggedInUserId");
+
+        // Find the user by ID
+        UserData foundUser = userList.Find(user => user.id == userId);
+
+        if (foundUser != null)
+        {
+            // Only update if the completed level is higher than the current level
+            if (completedLevel > foundUser.currentLevel)
+            {
+                foundUser.currentLevel = completedLevel;
+                Debug.Log($"User {foundUser.username} level updated to {foundUser.currentLevel}");
+            }
+            else
+            {
+                Debug.Log($"Completed level ({completedLevel}) is not higher than current level ({foundUser.currentLevel}). No update made.");
+            }
+        }
+        else
+        {
+            Debug.LogError("User not found!");
+        }
+    }
+
+    private void SaveUserData()
+    {
+        // Save updated user data back to JSON
+        string json = JsonUtility.ToJson(new UserDataList { users = userList });
+        File.WriteAllText(filePath, json);
+        Debug.Log("User data saved to file.");
+    }
+
+    [System.Serializable]
+    public class UserDataList
+    {
+        public List<UserData> users;
+    }
+
+    [System.Serializable]
+    public class UserData
+    {
+        public int id;
+        public string username;
+        public int age;
+        public int currentLevel;
     }
 }

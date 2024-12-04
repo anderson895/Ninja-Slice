@@ -1,0 +1,84 @@
+com.unity.androidnotifications.NotificationCallback
+com.unity.androidnotifications.UnityNotificationRestartReceiver
+com.unity.androidnotifications.UnityNotificationManager
+com.unity.androidnotifications.R
+com.unity3d.player.UnityPlayer
+com.unity.androidnotifications.UnityNotificationManager: java.lang.String KEY_BIG_SUMMARY_TEXT
+com.unity.androidnotifications.UnityNotificationManager: java.lang.String KEY_BIG_PICTURE
+com.unity.androidnotifications.UnityNotificationManager: java.lang.String KEY_INTENT_DATA
+com.unity.androidnotifications.UnityNotificationManager: java.lang.String KEY_NOTIFICATION_DISMISSED
+com.unity.androidnotifications.UnityNotificationManager: java.lang.String KEY_SMALL_ICON
+com.unity.androidnotifications.UnityNotificationManager: java.lang.String KEY_LARGE_ICON
+com.unity.androidnotifications.UnityNotificationManager: java.lang.String KEY_BIG_CONTENT_DESCRIPTION
+com.unity.androidnotifications.UnityNotificationManager: java.lang.String KEY_ID
+com.unity.androidnotifications.UnityNotificationManager: java.lang.String KEY_BIG_CONTENT_TITLE
+com.unity.androidnotifications.UnityNotificationManager: java.lang.String KEY_SHOW_IN_FOREGROUND
+com.unity.androidnotifications.UnityNotificationManager: java.lang.String KEY_BIG_SHOW_WHEN_COLLAPSED
+com.unity.androidnotifications.UnityNotificationManager: java.lang.String KEY_REPEAT_INTERVAL
+com.unity.androidnotifications.UnityNotificationManager: java.lang.String KEY_NOTIFICATION
+com.unity.androidnotifications.UnityNotificationManager: java.lang.String KEY_FIRE_TIME
+com.unity.androidnotifications.UnityNotificationManager: java.lang.String KEY_BIG_LARGE_ICON
+com.unity.androidnotifications.UnityNotificationManager: java.lang.String KEY_NOTIFICATION_ID
+com.unity.androidnotifications.UnityNotificationManager: java.lang.String KEY_CHANNEL_ID
+com.unity3d.player.UnityPlayer: int getSplashMode()
+com.unity3d.player.UnityPlayer: java.lang.String getClipboardText()
+com.unity.androidnotifications.UnityNotificationManager: int getTargetSdk()
+com.unity3d.player.UnityPlayer: int getNetworkConnectivity()
+com.unity.androidnotifications.UnityNotificationManager: int checkNotificationStatus(int)
+com.unity.androidnotifications.UnityNotificationBackgroundThread$Task: UnityNotificationBackgroundThread$Task()
+com.unity3d.player.UnityPlayer: void setClipboardText(java.lang.String)
+com.unity.androidnotifications.UnityNotificationManager: void setNotificationGroupAlertBehavior(android.app.Notification$Builder,int)
+com.unity3d.player.UnityPlayer: void setScreenBrightness(float)
+com.unity.androidnotifications.UnityNotificationManager: com.unity.androidnotifications.NotificationChannelWrapper[] getNotificationChannels()
+com.unity3d.player.UnityPlayer: java.lang.String getLaunchURL()
+com.unity.androidnotifications.R: R()
+com.unity3d.player.UnityPlayer: boolean getLaunchFullscreen()
+com.unity3d.player.UnityPlayer: float getScreenBrightness()
+com.unity.androidnotifications.UnityNotificationManager: java.lang.String getNotificationChannelId(android.app.Notification)
+com.unity.androidnotifications.UnityNotificationManager: void deleteNotificationChannelGroup(java.lang.String)
+com.unity3d.player.UnityPlayer: void setHideInputField(boolean)
+com.unity.androidnotifications.UnityNotificationManager: java.lang.Integer getNotificationColor(android.app.Notification)
+com.unity3d.player.UnityPlayer: boolean getAutoReportFullyDrawnEnabled()
+com.unity3d.player.UnityPlayer: boolean getSplashEnabled()
+com.unity3d.player.UnityPlayer: boolean nativeGetNoWindowMode()
+com.unity.androidnotifications.UnityNotificationManager: void cancelAllPendingNotificationIntents()
+com.unity.androidnotifications.UnityNotificationManager: void onReceive(android.content.Intent)
+com.unity.androidnotifications.UnityNotificationManager: void setupBigPictureStyle(android.app.Notification$Builder,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,boolean)
+com.unity.androidnotifications.UnityNotificationManager: android.app.NotificationManager getNotificationManager()
+com.unity.androidnotifications.UnityNotificationManager: void cancelAllNotifications()
+com.unity.androidnotifications.UnityNotificationManager: void cancelPendingNotification(int)
+com.unity3d.player.UnityPlayer: int getUaaLLaunchProcessType()
+com.unity.androidnotifications.UnityNotificationManager: com.unity.androidnotifications.UnityNotificationManager getNotificationManagerImpl(android.app.Activity,com.unity.androidnotifications.NotificationCallback)
+com.unity.androidnotifications.UnityNotificationManager: android.app.Notification getNotificationFromIntent(android.content.Intent)
+com.unity.androidnotifications.UnityNotificationRestartReceiver: UnityNotificationRestartReceiver()
+com.unity.androidnotifications.UnityNotificationManager: int areNotificationsEnabled()
+com.unity.androidnotifications.UnityNotificationManager: void deleteNotificationChannel(java.lang.String)
+com.unity3d.player.UnityPlayer: android.content.pm.ApplicationInfo getApplicationInfo()
+com.unity3d.player.UnityPlayer: void setMainSurfaceViewAspectRatio(float)
+com.unity3d.player.UnityPlayer: java.lang.String getKeyboardLayout()
+com.unity.androidnotifications.UnityNotificationManager: void cancelDisplayedNotification(int)
+com.unity3d.player.UnityPlayer: boolean getHaveAndroidWindowSupport()
+com.unity.androidnotifications.UnityNotificationUtilities: UnityNotificationUtilities()
+com.unity3d.player.UnityPlayer: android.content.pm.ActivityInfo getActivityInfo()
+com.unity.androidnotifications.UnityNotificationManager: void setNotificationUsesChronometer(android.app.Notification$Builder,boolean)
+com.unity3d.player.UnityPlayer: void setCharacterLimit(int)
+com.unity.androidnotifications.NotificationCallback: void onSentNotification(android.app.Notification)
+com.unity.androidnotifications.UnityNotificationManager: void onReceive(android.content.Context,android.content.Intent)
+com.unity3d.player.UnityPlayer: boolean getARCoreEnabled()
+com.unity.androidnotifications.UnityNotificationManager: int scheduleNotification(android.app.Notification$Builder,boolean)
+com.unity.androidnotifications.UnityNotificationManager: void setNotificationIcon(android.app.Notification$Builder,java.lang.String,java.lang.String)
+com.unity.androidnotifications.UnityNotificationManager: void registerNotificationChannel(java.lang.String,java.lang.String,int,java.lang.String,boolean,boolean,boolean,boolean,long[],int,java.lang.String)
+com.unity.androidnotifications.UnityNotificationManager: com.unity.androidnotifications.NotificationChannelWrapper getNotificationChannel(java.lang.String)
+com.unity.androidnotifications.UnityNotificationManager: void setNotificationColor(android.app.Notification$Builder,int)
+com.unity3d.player.UnityPlayer: boolean nativeInjectEvent(android.view.InputEvent)
+com.unity.androidnotifications.UnityNotificationManager: int getNotificationGroupAlertBehavior(android.app.Notification)
+com.unity3d.player.UnityPlayer: android.view.View getView()
+com.unity.androidnotifications.UnityNotificationManager: void registerNotificationChannelGroup(java.lang.String,java.lang.String,java.lang.String)
+com.unity.androidnotifications.UnityNotificationManager: UnityNotificationManager()
+com.unity.androidnotifications.UnityNotificationManager: boolean checkIfPendingNotificationIsRegistered(int)
+com.unity3d.player.UnityPlayer: void setSoftInputStr(java.lang.String)
+com.unity3d.player.UnityPlayer: java.lang.String getProcessName()
+com.unity3d.player.UnityPlayer: android.os.Bundle getSettings()
+com.unity.androidnotifications.UnityNotificationManager: android.app.Notification$Builder createNotificationBuilder(java.lang.String)
+com.unity.androidnotifications.UnityNotificationManager: void showNotificationSettings(java.lang.String)
+com.unity.androidnotifications.UnityNotificationManager: boolean canScheduleExactAlarms()
