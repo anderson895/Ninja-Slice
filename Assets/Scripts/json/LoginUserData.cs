@@ -88,7 +88,7 @@ public class LoginUserData : MonoBehaviour
         messageText.gameObject.SetActive(true);
 
         // Start a coroutine to hide the message after 1 second
-        StartCoroutine(HideMessageAfterDelay(1f));
+        StartCoroutine(HideMessageAfterDelay(2f));
     }
 
     IEnumerator HideMessageAfterDelay(float delay)

@@ -16,6 +16,12 @@ public class Level2 : MonoBehaviour
     public Image heart2;
     public Image heart3;
 
+    [Header("Sound Effects")]
+    public AudioClip scoreSound;      // Sound for score increase
+    public AudioClip gameOverSound;   // Sound for game over
+    public AudioClip levelCompleteSound; // Sound for level completion
+    private AudioSource audioSource;  // AudioSource to play sounds
+
     [Header("Game Data")]
     private int playerScore = 0;
     private int currentQuestionIndex = 0;
@@ -64,6 +70,8 @@ public class Level2 : MonoBehaviour
         {
             userList = new List<UserData>();
         }
+
+        audioSource = GetComponent<AudioSource>(); // Initialize AudioSource component
     }
 
     private void Start()
@@ -81,6 +89,13 @@ public class Level2 : MonoBehaviour
     {
         playerScore += amount;
         Debug.Log($"Score updated: {playerScore}");
+
+        // Play score sound
+        if (audioSource != null && scoreSound != null)
+        {
+            audioSource.PlayOneShot(scoreSound);
+        }
+
         UpdateUI();
     }
 
@@ -111,6 +126,12 @@ public class Level2 : MonoBehaviour
         PlayerManagement.isGameOver = true;
         Debug.Log("Game Over!");
         questionText.text = "Game Over!";
+
+        // Play game over sound
+        if (audioSource != null && gameOverSound != null)
+        {
+            audioSource.PlayOneShot(gameOverSound);
+        }
     }
 
     public int GetCurrentAnswer()
@@ -139,6 +160,12 @@ public class Level2 : MonoBehaviour
             questionText.text = "Level Complete!";
             Debug.Log("All questions answered. Level complete!");
 
+            // Play level complete sound
+            if (audioSource != null && levelCompleteSound != null)
+            {
+                audioSource.PlayOneShot(levelCompleteSound);
+            }
+
             // Update the user's level, passing the completed level
             UpdateUserLevel(3);
 
@@ -147,28 +174,21 @@ public class Level2 : MonoBehaviour
         }
     }
 
-
     private void UpdateUserLevel(int completedLevel)
     {
-        // Get user ID from PlayerPrefs
         int userId = PlayerPrefs.GetInt("LoggedInUserId");
-
-        // Find the user by ID
         UserData foundUser = userList.Find(user => user.id == userId);
 
         if (foundUser != null)
         {
-            // Only update if the completed level is higher than the current level
-            if (completedLevel < foundUser.currentLevel)
+            if (completedLevel > foundUser.currentLevel)
             {
-
-                Debug.Log($"Completed level ({completedLevel}) is not higher than current level ({foundUser.currentLevel}). No update made.");
+                foundUser.currentLevel = completedLevel;
+                Debug.Log($"User {foundUser.username} level updated to {foundUser.currentLevel}");
             }
             else
             {
-
-                foundUser.currentLevel = completedLevel;
-                Debug.Log($"User {foundUser.username} level updated to {foundUser.currentLevel}");
+                Debug.Log($"Completed level ({completedLevel}) is not higher than current level ({foundUser.currentLevel}). No update made.");
             }
         }
         else
@@ -176,7 +196,6 @@ public class Level2 : MonoBehaviour
             Debug.LogError("User not found!");
         }
     }
-
 
     private void SaveUserData()
     {

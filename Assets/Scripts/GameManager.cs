@@ -1,8 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
-using System.IO;
 using System.Collections.Generic;
+using System.IO;
 
 public class GameManager : MonoBehaviour
 {
@@ -40,6 +39,12 @@ public class GameManager : MonoBehaviour
     private string filePath;
     private List<UserData> userList;
 
+    [Header("Sound Effects")]
+    public AudioClip sliceSound;   // Sound effect for slicing an object
+    public AudioClip gameOverSound; // Sound effect for game over
+    public AudioClip levelCompleteSound; // Sound effect for level completion
+    private AudioSource audioSource;
+
     private void Awake()
     {
         // Set up singleton instance
@@ -65,6 +70,8 @@ public class GameManager : MonoBehaviour
         {
             userList = new List<UserData>(); // Initialize empty list if file does not exist
         }
+
+        audioSource = GetComponent<AudioSource>(); // Initialize AudioSource component
     }
 
     private void Start()
@@ -80,10 +87,25 @@ public class GameManager : MonoBehaviour
         UpdateUI();
     }
 
+    // Trigger Touch Sound
+   
+
     public void AddScore(int amount)
     {
         playerScore += amount;
         Debug.Log($"Score updated: {playerScore}");
+
+        // Play slice sound
+        if (audioSource != null && sliceSound != null)
+        {
+            Debug.Log("Playing slice sound.");
+            audioSource.PlayOneShot(sliceSound);
+        }
+        else
+        {
+            Debug.LogError("AudioSource or sliceSound is missing.");
+        }
+
         UpdateUI();
     }
 
@@ -106,6 +128,18 @@ public class GameManager : MonoBehaviour
                 break;
         }
 
+
+        // Play slice sound
+        if (audioSource != null && sliceSound != null)
+        {
+            Debug.Log("Playing slice sound.");
+            audioSource.PlayOneShot(sliceSound);
+        }
+        else
+        {
+            Debug.LogError("AudioSource or sliceSound is missing.");
+        }
+
         Debug.Log($"Lives remaining: {playerLives}");
         UpdateUI();
     }
@@ -115,6 +149,12 @@ public class GameManager : MonoBehaviour
         PlayerManagement.isGameOver = true;
         Debug.Log("Game Over!");
         questionText.text = "Game Over!";
+
+        // Play game over sound
+        if (audioSource != null && gameOverSound != null)
+        {
+            audioSource.PlayOneShot(gameOverSound);
+        }
     }
 
     public int GetCurrentAnswer()
@@ -143,6 +183,12 @@ public class GameManager : MonoBehaviour
             questionText.text = "Level Complete!";
             Debug.Log("All questions answered. Level complete!");
 
+            // Play level complete sound
+            if (audioSource != null && levelCompleteSound != null)
+            {
+                audioSource.PlayOneShot(levelCompleteSound);
+            }
+
             // Pass the completed level to the update method
             UpdateUserLevel(2); // Adjust to match the actual level number
 
@@ -150,7 +196,6 @@ public class GameManager : MonoBehaviour
             SaveUserData();
         }
     }
-
 
     private void UpdateUserLevel(int completedLevel)
     {
@@ -178,7 +223,6 @@ public class GameManager : MonoBehaviour
             Debug.LogError("User not found!");
         }
     }
-
 
     private void SaveUserData()
     {

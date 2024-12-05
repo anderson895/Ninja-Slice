@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using TMPro;  // Import TextMeshPro namespace
+using TMPro;
 using System.IO;
 using System.Collections.Generic;
 using System.Collections;
@@ -14,14 +14,14 @@ public class MenuScript : MonoBehaviour
     private List<UserData> userList; // List to store users
     private string filePath;
 
+    public Color disabledColor = Color.gray; // The color to be applied when a button is disabled
+
     void Start()
     {
         filePath = Application.persistentDataPath + "/userdata.json";
-
         userList = LoadUserData();
 
         int loggedInUserId = PlayerPrefs.GetInt("LoggedInUserId", -1);
-
         UserData loggedInUser = userList.Find(user => user.id == loggedInUserId);
 
         if (loggedInUser != null)
@@ -30,18 +30,34 @@ public class MenuScript : MonoBehaviour
 
             levelText.text = "Current Level: " + currentLevel;
 
-            for (int i = 0; i < levelButtons.Length; i++)
-            {
-                int levelIndex = i + 1; // Levels start from 1
-                if (levelIndex > currentLevel)
-                {
-                    levelButtons[i].interactable = false; // Disable button for higher levels
-                }
-            }
+            // Set DisableColor for buttons based on the current level
+            SetButtonColors(currentLevel);
         }
         else
         {
             Debug.LogError("Logged-in user not found in user data.");
+        }
+    }
+
+    // Function to set the color of each button based on the user's current level
+    private void SetButtonColors(int currentLevel)
+    {
+        for (int i = 0; i < levelButtons.Length; i++)
+        {
+            int levelIndex = i + 1; // Levels start from 1
+            if (levelIndex > currentLevel)
+            {
+                // Disable the button and change its color
+                levelButtons[i].interactable = false;
+                ColorBlock colors = levelButtons[i].colors;
+                colors.disabledColor = disabledColor; // Set the disabled color
+                levelButtons[i].colors = colors;
+            }
+            else
+            {
+                // Enable the button
+                levelButtons[i].interactable = true;
+            }
         }
     }
 
@@ -61,6 +77,8 @@ public class MenuScript : MonoBehaviour
                 // Show alert message
                 ShowAlert("Cannot load level higher than current level.");
 
+              
+
                 Debug.Log("Cannot load level higher than current level. The current level is " + currentLevel);
                 return; // Prevent loading the level if it's higher than the current level
             }
@@ -73,6 +91,7 @@ public class MenuScript : MonoBehaviour
             Debug.LogError("Logged-in user not found in user data.");
         }
     }
+
 
     public void Quit()
     {
@@ -96,15 +115,14 @@ public class MenuScript : MonoBehaviour
     }
 
     private void ShowAlert(string message)
-{
-    alertText.text = message;  // Set the alert message
-    alertText.color = Color.red;  // Set the color of the alert text to red
-    alertText.gameObject.SetActive(true);  // Show the alert
+    {
+        alertText.text = message;  // Set the alert message
+        alertText.color = Color.red;  // Set the color of the alert text to red
+        alertText.gameObject.SetActive(true);  // Show the alert
 
-    // Start the coroutine to hide the alert after 1 second
-    StartCoroutine(HideAlert());
-}
-
+        // Start the coroutine to hide the alert after 1 second
+        StartCoroutine(HideAlert());
+    }
 
     // Coroutine to hide the alert after 1 second
     private IEnumerator HideAlert()
