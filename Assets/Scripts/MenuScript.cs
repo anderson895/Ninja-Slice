@@ -28,7 +28,15 @@ public class MenuScript : MonoBehaviour
         {
             int currentLevel = loggedInUser.currentLevel;
 
-            levelText.text = "Current Level: " + currentLevel;
+            if (currentLevel >= 20)
+            {
+                currentLevel = 20; // Cap the level to 20 if it goes beyond.
+                levelText.text = "Completed All Level";
+            }
+            else
+            {
+                levelText.text = "Current Level: " + currentLevel;
+            }
 
             // Set DisableColor for buttons based on the current level
             SetButtonColors(currentLevel);
@@ -37,6 +45,7 @@ public class MenuScript : MonoBehaviour
         {
             Debug.LogError("Logged-in user not found in user data.");
         }
+
     }
 
     // Function to set the color of each button based on the user's current level
