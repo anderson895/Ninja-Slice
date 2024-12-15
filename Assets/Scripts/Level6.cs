@@ -96,8 +96,14 @@ public class Level6 : MonoBehaviour
         // Play score sound
         if (audioSource != null && scoreSound != null)
         {
+            Debug.Log("Playing slice sound.");
             audioSource.PlayOneShot(scoreSound);
         }
+        else
+        {
+            Debug.LogError("AudioSource or sliceSound is missing.");
+        }
+
 
         UpdateUI();
     }
@@ -120,7 +126,15 @@ public class Level6 : MonoBehaviour
                 GameOver();
                 break;
         }
-
+        if (audioSource != null && scoreSound != null)
+        {
+            Debug.Log("Playing slice sound.");
+            audioSource.PlayOneShot(scoreSound);
+        }
+        else
+        {
+            Debug.LogError("AudioSource or sliceSound is missing.");
+        }
         Debug.Log($"Lives remaining: {playerLives}");
         UpdateUI();
     }

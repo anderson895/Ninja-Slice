@@ -18,9 +18,10 @@ public class Level3 : MonoBehaviour
     public Image heart3;
 
     [Header("Sound Effects")]
-    public AudioClip scoreSound;      // Sound for score increase
+    public AudioClip sliceSound;      // Sound for score increase
     public AudioClip gameOverSound;   // Sound for game over
     public AudioClip levelCompleteSound; // Sound for level completion
+    public AudioClip[] questionSounds; // Sounds for each question slice
     private AudioSource audioSource;  // AudioSource to play sounds
 
     [Header("Game Data")]
@@ -93,10 +94,17 @@ public class Level3 : MonoBehaviour
         playerScore += amount;
         Debug.Log($"Score updated: {playerScore}");
 
-        // Play score sound
-        if (audioSource != null && scoreSound != null)
+
+
+        // Play slice sound
+        if (audioSource != null && sliceSound != null)
         {
-            audioSource.PlayOneShot(scoreSound);
+            Debug.Log("Playing slice sound.");
+            audioSource.PlayOneShot(sliceSound);
+        }
+        else
+        {
+            Debug.LogError("AudioSource or sliceSound is missing.");
         }
 
         UpdateUI();
@@ -119,6 +127,17 @@ public class Level3 : MonoBehaviour
                 heart1.enabled = false;
                 GameOver();
                 break;
+        }
+
+        // Play slice sound
+        if (audioSource != null && sliceSound != null)
+        {
+            Debug.Log("Playing slice sound.");
+            audioSource.PlayOneShot(sliceSound);
+        }
+        else
+        {
+            Debug.LogError("AudioSource or sliceSound is missing.");
         }
 
         Debug.Log($"Lives remaining: {playerLives}");
@@ -156,6 +175,12 @@ public class Level3 : MonoBehaviour
 
         if (currentQuestionIndex < questions.Length)
         {
+            // Play sound for the current question slice
+            if (audioSource != null && questionSounds != null && currentQuestionIndex < questionSounds.Length)
+            {
+                audioSource.PlayOneShot(questionSounds[currentQuestionIndex]);
+            }
+
             UpdateUI();
         }
         else

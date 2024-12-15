@@ -120,7 +120,11 @@ public class Level4 : MonoBehaviour
                 GameOver();
                 break;
         }
-
+        // Play score sound
+        if (audioSource != null && scoreSound != null)
+        {
+            audioSource.PlayOneShot(scoreSound);
+        }
         Debug.Log($"Lives remaining: {playerLives}");
         UpdateUI();
     }

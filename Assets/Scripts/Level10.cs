@@ -16,6 +16,14 @@ public class Level10 : MonoBehaviour
     public Image heart2;
     public Image heart3;
 
+
+    [Header("Sound Effects")]
+    public AudioClip scoreSound;          // Sound for score increase
+    public AudioClip gameOverSound;       // Sound for game over
+    public AudioClip levelCompleteSound;  // Sound for level completion
+    private AudioSource audioSource;
+
+
     [Header("Game Data")]
     private int playerScore = 0;
     private int currentQuestionIndex = 0;
@@ -64,6 +72,8 @@ public class Level10 : MonoBehaviour
         {
             userList = new List<UserData>();
         }
+
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void Start()
@@ -81,6 +91,17 @@ public class Level10 : MonoBehaviour
 
     public void AddScore(int amount)
     {
+
+        // Play score sound
+        if (audioSource != null && scoreSound != null)
+        {
+            Debug.Log("Playing slice sound.");
+            audioSource.PlayOneShot(scoreSound);
+        }
+        else
+        {
+            Debug.LogError("AudioSource or sliceSound is missing.");
+        }
         playerScore += amount;
         Debug.Log($"Score updated: {playerScore}");
         UpdateUI();
@@ -105,6 +126,17 @@ public class Level10 : MonoBehaviour
                 break;
         }
 
+        // Play score sound
+        if (audioSource != null && scoreSound != null)
+        {
+            Debug.Log("Playing slice sound.");
+            audioSource.PlayOneShot(scoreSound);
+        }
+        else
+        {
+            Debug.LogError("AudioSource or sliceSound is missing.");
+        }
+
         Debug.Log($"Lives remaining: {playerLives}");
         UpdateUI();
     }
@@ -114,6 +146,11 @@ public class Level10 : MonoBehaviour
         PlayerManagement.isGameOver = true;
         Debug.Log("Game Over!");
         questionText.text = "Game Over!";
+        // Play game over sound
+        if (audioSource != null && gameOverSound != null)
+        {
+            audioSource.PlayOneShot(gameOverSound);
+        }
     }
 
     public int GetCurrentAnswer()
@@ -141,7 +178,11 @@ public class Level10 : MonoBehaviour
             PlayerManagement.isVictory = true;
             questionText.text = "Level Complete!";
             Debug.Log("All questions answered. Level complete!");
-
+            // Play level complete sound
+            if (audioSource != null && levelCompleteSound != null)
+            {
+                audioSource.PlayOneShot(levelCompleteSound);
+            }
             // Call UpdateUserLevel with the completed level (e.g., 10)
             UpdateUserLevel(11);
 

@@ -17,9 +17,9 @@ public class Level2 : MonoBehaviour
     public Image heart3;
 
     [Header("Sound Effects")]
-    public AudioClip scoreSound;      // Sound for score increase
     public AudioClip gameOverSound;   // Sound for game over
     public AudioClip levelCompleteSound; // Sound for level completion
+    public AudioClip sliceSound;      // Sound for slicing an object (add this for slices)
     private AudioSource audioSource;  // AudioSource to play sounds
 
     [Header("Game Data")]
@@ -90,10 +90,12 @@ public class Level2 : MonoBehaviour
         playerScore += amount;
         Debug.Log($"Score updated: {playerScore}");
 
-        // Play score sound
-        if (audioSource != null && scoreSound != null)
+       
+
+        // Play slice sound for the correct answer
+        if (audioSource != null && sliceSound != null)
         {
-            audioSource.PlayOneShot(scoreSound);
+            audioSource.PlayOneShot(sliceSound);
         }
 
         UpdateUI();
@@ -103,6 +105,7 @@ public class Level2 : MonoBehaviour
     {
         playerLives--;
 
+        // Hide a heart based on remaining lives
         switch (playerLives)
         {
             case 2:
@@ -115,6 +118,12 @@ public class Level2 : MonoBehaviour
                 heart1.enabled = false;
                 GameOver();
                 break;
+        }
+
+        // Play slice sound (if desired, like for a "slice" event when losing a heart)
+        if (audioSource != null && sliceSound != null)
+        {
+            audioSource.PlayOneShot(sliceSound);
         }
 
         Debug.Log($"Lives remaining: {playerLives}");
@@ -141,7 +150,7 @@ public class Level2 : MonoBehaviour
             return answers[currentQuestionIndex];
         }
         Debug.LogError("No valid answer available. Out of bounds!");
-        return -1;
+        return -1; // Return an invalid answer
     }
 
     public void DisplayNextQuestion()

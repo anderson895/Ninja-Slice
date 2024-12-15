@@ -16,6 +16,15 @@ public class Level7 : MonoBehaviour
     public Image heart2;
     public Image heart3;
 
+
+    [Header("Sound Effects")]
+    public AudioClip scoreSound;          // Sound for score increase
+    public AudioClip gameOverSound;       // Sound for game over
+    public AudioClip levelCompleteSound;  // Sound for level completion
+    private AudioSource audioSource;
+
+
+
     [Header("Game Data")]
     private int playerScore = 0;
     private int currentQuestionIndex = 0;
@@ -64,6 +73,7 @@ public class Level7 : MonoBehaviour
         {
             userList = new List<UserData>();
         }
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void Start()
@@ -81,6 +91,17 @@ public class Level7 : MonoBehaviour
 
     public void AddScore(int amount)
     {
+        // Play score sound
+        if (audioSource != null && scoreSound != null)
+        {
+            Debug.Log("Playing slice sound.");
+            audioSource.PlayOneShot(scoreSound);
+        }
+        else
+        {
+            Debug.LogError("AudioSource or sliceSound is missing.");
+        }
+
         playerScore += amount;
         Debug.Log($"Score updated: {playerScore}");
         UpdateUI();
@@ -103,6 +124,16 @@ public class Level7 : MonoBehaviour
                 heart1.enabled = false;
                 GameOver();
                 break;
+        }
+        // Play score sound
+        if (audioSource != null && scoreSound != null)
+        {
+            Debug.Log("Playing slice sound.");
+            audioSource.PlayOneShot(scoreSound);
+        }
+        else
+        {
+            Debug.LogError("AudioSource or sliceSound is missing.");
         }
 
         Debug.Log($"Lives remaining: {playerLives}");
