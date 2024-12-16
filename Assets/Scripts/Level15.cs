@@ -16,6 +16,12 @@ public class Level15 : MonoBehaviour
     public Image heart2;
     public Image heart3;
 
+    [Header("Sound Effects")]
+    public AudioClip scoreSound;          // Sound for score increase
+    public AudioClip gameOverSound;       // Sound for game over
+    public AudioClip levelCompleteSound;  // Sound for level completion
+    private AudioSource audioSource;
+
     [Header("Game Data")]
     private int playerScore = 0;
     private int currentQuestionIndex = 0;
@@ -64,6 +70,8 @@ public class Level15 : MonoBehaviour
         {
             userList = new List<UserData>();
         }
+
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void Start()
@@ -81,6 +89,12 @@ public class Level15 : MonoBehaviour
 
     public void AddScore(int amount)
     {
+
+        if (audioSource != null && scoreSound != null)
+        {
+            Debug.Log("Playing slice sound.");
+            audioSource.PlayOneShot(scoreSound);
+        }
         playerScore += amount;
         Debug.Log($"Score updated: {playerScore}");
         UpdateUI();
@@ -103,6 +117,14 @@ public class Level15 : MonoBehaviour
                 heart1.enabled = false;
                 GameOver();
                 break;
+
+        }
+
+        // Play score sound
+        if (audioSource != null && scoreSound != null)
+        {
+            Debug.Log("Playing slice sound.");
+            audioSource.PlayOneShot(scoreSound);
         }
 
         Debug.Log($"Lives remaining: {playerLives}");
@@ -114,6 +136,11 @@ public class Level15 : MonoBehaviour
         PlayerManagement.isGameOver = true;
         Debug.Log("Game Over!");
         questionText.text = "Game Over!";
+
+        if (audioSource != null && gameOverSound != null)
+        {
+            audioSource.PlayOneShot(gameOverSound);
+        }
     }
 
     public int GetCurrentAnswer()
@@ -141,7 +168,10 @@ public class Level15 : MonoBehaviour
             PlayerManagement.isVictory = true;
             questionText.text = "Level Complete!";
             Debug.Log("All questions answered. Level complete!");
-
+            if (audioSource != null && levelCompleteSound != null)
+            {
+                audioSource.PlayOneShot(levelCompleteSound);
+            }
             // Call UpdateUserLevel with the completed level (e.g., 15)
             UpdateUserLevel(16);
 
