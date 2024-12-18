@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using System.IO;
@@ -21,6 +21,7 @@ public class Level17 : MonoBehaviour
     public AudioClip scoreSound;          // Sound for score increase
     public AudioClip gameOverSound;       // Sound for game over
     public AudioClip levelCompleteSound;  // Sound for level completion
+    public AudioClip backgroundMusic;
     private AudioSource audioSource;
 
     [Header("Game Data")]
@@ -29,16 +30,16 @@ public class Level17 : MonoBehaviour
     private int playerLives = 3; // Total hearts/lives
 
     private string[] questions = {
-        "18 � ?3 = ?",
-        "42 � ?7 = ?",
-        "63 � ?9 = ?",
-        "56 � ?8 = ?",
-        "90 � ?10 = ?",
-        "72 � ?6 = ?",
-        "40 � ?5 = ?",
-        "100 � ?4 = ?",
-        "54 � ?6 = ?",
-        "27 � ?3 = ?"
+        "-18 ÷ -3 = ?",
+        "−42 ÷ −7 = ?",
+        "−63 ÷ −9 = ?",
+        "−56 ÷ −8  = ?",
+        "−90 ÷ −10 = ?",
+        "−72 ÷ −6 = ?",
+        "−40 ÷ −5 = ?",
+        "−100 ÷ −4 = ?",
+        "−54 ÷ −6= ?",
+        "−27 ÷ −3= ?"
     };
 
     private int[] answers = { 6, 6, 7, 7, 9, 12, 8, 25, 9, 9 };
@@ -85,6 +86,19 @@ public class Level17 : MonoBehaviour
 
         // Initialize the UI
         UpdateUI();
+
+        // Play Background Music
+        if (backgroundMusic != null)
+        {
+            audioSource.clip = backgroundMusic;
+            audioSource.loop = true;
+            audioSource.volume = 0.1f;
+            audioSource.Play();
+        }
+        else
+        {
+            Debug.LogError("Background music clip is not assigned in the Inspector.");
+        }
     }
 
     public void AddScore(int amount)

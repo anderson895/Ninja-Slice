@@ -81,7 +81,7 @@ public class MenuScript : MonoBehaviour
             int currentLevel = loggedInUser.currentLevel;
 
             // Check if the selected level is higher than the current level
-            if (index - 1 > currentLevel)
+            if (index-4 > currentLevel)
             {
                 // Show alert message
                 ShowAlert("Cannot load level higher than current level.");

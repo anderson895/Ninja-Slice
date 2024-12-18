@@ -22,6 +22,7 @@ public class Level19 : MonoBehaviour
     public AudioClip scoreSound;          // Sound for score increase
     public AudioClip gameOverSound;       // Sound for game over
     public AudioClip levelCompleteSound;  // Sound for level completion
+    public AudioClip backgroundMusic;
     private AudioSource audioSource;
 
     [Header("Game Data")]
@@ -87,6 +88,19 @@ public class Level19 : MonoBehaviour
 
         // Initialize the UI
         UpdateUI();
+
+        // Play Background Music
+        if (backgroundMusic != null)
+        {
+            audioSource.clip = backgroundMusic;
+            audioSource.loop = true;
+            audioSource.volume = 0.1f;
+            audioSource.Play();
+        }
+        else
+        {
+            Debug.LogError("Background music clip is not assigned in the Inspector.");
+        }
     }
 
     public void AddScore(int amount)

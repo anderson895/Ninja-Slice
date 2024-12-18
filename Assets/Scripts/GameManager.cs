@@ -40,9 +40,10 @@ public class GameManager : MonoBehaviour
     private List<UserData> userList;
 
     [Header("Sound Effects")]
-    public AudioClip sliceSound;   // Sound effect for slicing an object
-    public AudioClip gameOverSound; // Sound effect for game over
-    public AudioClip levelCompleteSound; // Sound effect for level completion
+    public AudioClip sliceSound;   
+    public AudioClip gameOverSound; 
+    public AudioClip levelCompleteSound; 
+    public AudioClip backgroundMusic;
     private AudioSource audioSource;
 
     private void Awake()
@@ -85,6 +86,19 @@ public class GameManager : MonoBehaviour
 
         // Initialize the UI
         UpdateUI();
+
+        // Play Background Music
+        if (backgroundMusic != null)
+        {
+            audioSource.clip = backgroundMusic;
+            audioSource.loop = true; 
+            audioSource.volume = 0.1f; 
+            audioSource.Play();
+        }
+        else
+        {
+            Debug.LogError("Background music clip is not assigned in the Inspector.");
+        }
     }
 
     // Trigger Touch Sound

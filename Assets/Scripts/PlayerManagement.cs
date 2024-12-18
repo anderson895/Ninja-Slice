@@ -64,7 +64,7 @@ public class PlayerManagement : MonoBehaviour
     public void GotoMenu()
     {
         ResetGameState();
-        SceneManager.LoadScene(24); // Replace with your actual main menu scene index
+        SceneManager.LoadScene(28); // Replace with your actual main menu scene index
     }
 
     public void NextLevel()

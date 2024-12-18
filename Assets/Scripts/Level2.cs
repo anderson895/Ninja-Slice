@@ -20,6 +20,7 @@ public class Level2 : MonoBehaviour
     public AudioClip gameOverSound;   // Sound for game over
     public AudioClip levelCompleteSound; // Sound for level completion
     public AudioClip sliceSound;      // Sound for slicing an object (add this for slices)
+    public AudioClip backgroundMusic;
     private AudioSource audioSource;  // AudioSource to play sounds
 
     [Header("Game Data")]
@@ -83,6 +84,18 @@ public class Level2 : MonoBehaviour
         }
 
         UpdateUI();
+
+        if (backgroundMusic != null)
+        {
+            audioSource.clip = backgroundMusic;
+            audioSource.loop = true;
+            audioSource.volume = 0.1f;
+            audioSource.Play();
+        }
+        else
+        {
+            Debug.LogError("Background music clip is not assigned in the Inspector.");
+        }
     }
 
     public void AddScore(int amount)

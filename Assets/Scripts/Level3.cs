@@ -21,7 +21,7 @@ public class Level3 : MonoBehaviour
     public AudioClip sliceSound;      // Sound for score increase
     public AudioClip gameOverSound;   // Sound for game over
     public AudioClip levelCompleteSound; // Sound for level completion
-    public AudioClip[] questionSounds; // Sounds for each question slice
+    public AudioClip backgroundMusic;
     private AudioSource audioSource;  // AudioSource to play sounds
 
     [Header("Game Data")]
@@ -87,6 +87,20 @@ public class Level3 : MonoBehaviour
 
         // Initialize the UI
         UpdateUI();
+
+        // Play Background Music
+        if (backgroundMusic != null)
+        {
+            audioSource.clip = backgroundMusic;
+            audioSource.loop = true;
+            audioSource.volume = 0.1f;
+            audioSource.Play();
+        }
+        else
+        {
+            Debug.LogError("Background music clip is not assigned in the Inspector.");
+        }
+
     }
 
     public void AddScore(int amount)
@@ -175,13 +189,8 @@ public class Level3 : MonoBehaviour
 
         if (currentQuestionIndex < questions.Length)
         {
-            // Play sound for the current question slice
-            if (audioSource != null && questionSounds != null && currentQuestionIndex < questionSounds.Length)
-            {
-                audioSource.PlayOneShot(questionSounds[currentQuestionIndex]);
-            }
-
             UpdateUI();
+
         }
         else
         {

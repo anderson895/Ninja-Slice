@@ -21,6 +21,7 @@ public class Level18 : MonoBehaviour
     public AudioClip scoreSound;          // Sound for score increase
     public AudioClip gameOverSound;       // Sound for game over
     public AudioClip levelCompleteSound;  // Sound for level completion
+    public AudioClip backgroundMusic;
     private AudioSource audioSource;
 
 
@@ -42,7 +43,7 @@ public class Level18 : MonoBehaviour
         "48 ÷ −8 = ?"
     };
 
-    private int[] answers = { -9, -9, -9, -8, -8, 12, -12, 6, -19, -6 };
+    private int[] answers = { -9, -9, -9, -8, -8, -5, -12, -6, -19, -6 };
 
     private string filePath;
     private List<UserData> userList;
@@ -87,6 +88,19 @@ public class Level18 : MonoBehaviour
 
         // Initialize the UI
         UpdateUI();
+
+        // Play Background Music
+        if (backgroundMusic != null)
+        {
+            audioSource.clip = backgroundMusic;
+            audioSource.loop = true;
+            audioSource.volume = 0.1f;
+            audioSource.Play();
+        }
+        else
+        {
+            Debug.LogError("Background music clip is not assigned in the Inspector.");
+        }
     }
 
     public void AddScore(int amount)
