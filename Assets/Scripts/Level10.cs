@@ -16,14 +16,12 @@ public class Level10 : MonoBehaviour
     public Image heart2;
     public Image heart3;
 
-
     [Header("Sound Effects")]
     public AudioClip scoreSound;          // Sound for score increase
     public AudioClip gameOverSound;       // Sound for game over
     public AudioClip levelCompleteSound;  // Sound for level completion
     public AudioClip backgroundMusic;
     private AudioSource audioSource;
-
 
     [Header("Game Data")]
     private int playerScore = 0;
@@ -35,7 +33,7 @@ public class Level10 : MonoBehaviour
         "8 - (-5) - (-7) - 4 = ?",
         "-12 - 10 - (-3) - 6 =  ?",
         "15 - (-9) - 5 - (-2) = ?",
-        "20 - 8 - (-6) - (-4) = ?",
+        "-20 - 8 - (-6) - (-4) = ?",
         "30 - (-12) - (-8) - 5 = ?",
         "-35 - 7 - (-11) - (-6) =  ?",
         "25 - (-9) - (-4) - 2 = ?",
@@ -46,7 +44,9 @@ public class Level10 : MonoBehaviour
     private int[] answers = { -3, 16, -25, 21, -18, 45, -25, 36, -37, 43 };
 
     private string filePath;
+    private string attemptsFilePath;
     private List<UserData> userList;
+    private List<AttemptData> attemptList;
 
     private void Awake()
     {
@@ -61,6 +61,7 @@ public class Level10 : MonoBehaviour
         }
 
         filePath = Application.persistentDataPath + "/userdata.json";
+        attemptsFilePath = Application.persistentDataPath + "/attempts.json";
 
         // Load existing user data if the file exists
         if (File.Exists(filePath))
@@ -72,6 +73,18 @@ public class Level10 : MonoBehaviour
         else
         {
             userList = new List<UserData>();
+        }
+
+        // Load attempt data from the attempts file
+        if (File.Exists(attemptsFilePath))
+        {
+            string attemptsJson = File.ReadAllText(attemptsFilePath);
+            attemptList = JsonUtility.FromJson<AttemptDataList>(attemptsJson).attempts;
+            Debug.Log("Loaded " + attemptList.Count + " attempts from attempts.json.");
+        }
+        else
+        {
+            attemptList = new List<AttemptData>(); // Initialize empty list if file does not exist
         }
 
         audioSource = GetComponent<AudioSource>();
@@ -105,17 +118,12 @@ public class Level10 : MonoBehaviour
 
     public void AddScore(int amount)
     {
-
         // Play score sound
         if (audioSource != null && scoreSound != null)
         {
-            Debug.Log("Playing slice sound.");
             audioSource.PlayOneShot(scoreSound);
         }
-        else
-        {
-            Debug.LogError("AudioSource or sliceSound is missing.");
-        }
+
         playerScore += amount;
         Debug.Log($"Score updated: {playerScore}");
         UpdateUI();
@@ -143,12 +151,7 @@ public class Level10 : MonoBehaviour
         // Play score sound
         if (audioSource != null && scoreSound != null)
         {
-            Debug.Log("Playing slice sound.");
             audioSource.PlayOneShot(scoreSound);
-        }
-        else
-        {
-            Debug.LogError("AudioSource or sliceSound is missing.");
         }
 
         Debug.Log($"Lives remaining: {playerLives}");
@@ -165,6 +168,13 @@ public class Level10 : MonoBehaviour
         {
             audioSource.PlayOneShot(gameOverSound);
         }
+
+        // Record the attempt for this user and level
+        int userId = PlayerPrefs.GetInt("LoggedInUserId");
+        AddAttempt(userId, 10); // Level 10
+
+        // Save attempt data
+        SaveAttemptsData();
     }
 
     public int GetCurrentAnswer()
@@ -181,8 +191,6 @@ public class Level10 : MonoBehaviour
     {
         currentQuestionIndex++;
 
-        Debug.Log($"Question Index Updated: {currentQuestionIndex}");
-
         if (currentQuestionIndex < questions.Length)
         {
             UpdateUI();
@@ -192,16 +200,23 @@ public class Level10 : MonoBehaviour
             PlayerManagement.isVictory = true;
             questionText.text = "Level Complete!";
             Debug.Log("All questions answered. Level complete!");
+
             // Play level complete sound
             if (audioSource != null && levelCompleteSound != null)
             {
                 audioSource.PlayOneShot(levelCompleteSound);
             }
-            // Call UpdateUserLevel with the completed level (e.g., 10)
+
+            // Update user level (e.g., to Level 11)
             UpdateUserLevel(11);
 
-            // Save updated user data
+            // Record the attempt for this user and level
+            int userId = PlayerPrefs.GetInt("LoggedInUserId");
+            AddAttempt(userId, 11); // Level 11
+
+            // Save updated user data and attempt data
             SaveUserData();
+            SaveAttemptsData();
         }
     }
 
@@ -215,33 +230,20 @@ public class Level10 : MonoBehaviour
         if (questionText != null && currentQuestionIndex < questions.Length)
         {
             questionText.text = questions[currentQuestionIndex];
-            Debug.Log($"Updated Question: {questions[currentQuestionIndex]}");
-        }
-        else
-        {
-            Debug.LogWarning("No more questions to display or QuestionText is null.");
         }
     }
 
     private void UpdateUserLevel(int completedLevel)
     {
-        // Get user ID from PlayerPrefs
         int userId = PlayerPrefs.GetInt("LoggedInUserId");
-
-        // Find the user by ID
         UserData foundUser = userList.Find(user => user.id == userId);
 
         if (foundUser != null)
         {
-            // Only update if the completed level is higher than the current level
             if (completedLevel > foundUser.currentLevel)
             {
                 foundUser.currentLevel = completedLevel;
                 Debug.Log($"User {foundUser.username} level updated to {foundUser.currentLevel}");
-            }
-            else
-            {
-                Debug.Log($"Completed level ({completedLevel}) is not higher than current level ({foundUser.currentLevel}). No update made.");
             }
         }
         else
@@ -250,12 +252,51 @@ public class Level10 : MonoBehaviour
         }
     }
 
+    private void AddAttempt(int userId, int level)
+    {
+        // Ensure attemptList is initialized
+        if (attemptList == null)
+        {
+            attemptList = new List<AttemptData>();
+        }
+
+        // Decrease the level by 1 for easier level tracking
+        level = Mathf.Max(0, level - 1); // Ensure the level doesn't go below 0
+
+        // Find the attempt data for the specific user and level
+        AttemptData existingAttempt = attemptList.Find(attempt => attempt.user_id == userId && attempt.level == level);
+
+        int attemptCount = 1;
+
+        if (existingAttempt != null)
+        {
+            attemptCount = existingAttempt.attempt + 1;
+            existingAttempt.attempt = attemptCount;
+        }
+        else
+        {
+            existingAttempt = new AttemptData
+            {
+                attempt_id = attemptList.Count + 1,
+                level = level,
+                user_id = userId,
+                attempt = attemptCount
+            };
+            attemptList.Add(existingAttempt);
+        }
+        Debug.Log($"Attempt updated: User {userId}, Level {level}, Attempt #{attemptCount}");
+    }
+
     private void SaveUserData()
     {
-        // Save updated user data back to JSON
         string json = JsonUtility.ToJson(new UserDataList { users = userList });
         File.WriteAllText(filePath, json);
-        Debug.Log("User data saved to file.");
+    }
+
+    private void SaveAttemptsData()
+    {
+        string attemptsJson = JsonUtility.ToJson(new AttemptDataList { attempts = attemptList });
+        File.WriteAllText(attemptsFilePath, attemptsJson);
     }
 
     [System.Serializable]
@@ -271,5 +312,20 @@ public class Level10 : MonoBehaviour
         public string username;
         public int age;
         public int currentLevel;
+    }
+
+    [System.Serializable]
+    public class AttemptDataList
+    {
+        public List<AttemptData> attempts;
+    }
+
+    [System.Serializable]
+    public class AttemptData
+    {
+        public int attempt_id;
+        public int level;
+        public int user_id;
+        public int attempt;
     }
 }

@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 
@@ -10,6 +9,7 @@ public class PlayerManagement : MonoBehaviour
     public GameObject gameOverScreen;
     public GameObject pauseMenuScreen;
     public GameObject victoryScreen;
+    public Leaderboard leaderboard; // Reference to the Leaderboard script
 
     public void Awake()
     {
@@ -35,12 +35,14 @@ public class PlayerManagement : MonoBehaviour
     {
         Time.timeScale = 0;
         gameOverScreen.SetActive(true);
+        leaderboard.ReloadData(); // Reload and display the latest leaderboard
     }
 
     private void HandleVictory()
     {
         Time.timeScale = 0;
         victoryScreen.SetActive(true);
+        leaderboard.ReloadData(); // Reload and display the latest leaderboard
     }
 
     public void ReplayLevel()

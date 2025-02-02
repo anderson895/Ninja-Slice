@@ -29,22 +29,24 @@ public class Level15 : MonoBehaviour
     private int playerLives = 3; // Total hearts/lives
 
     private string[] questions = {
-        "(-13) x 186 = ?",
-        "25 x (-174) = ?",
-        "(-36) x (-215) = ?",
-        "42 x (-193) = ?",
-        "(-18) x 254 = ?",
-        "51 x (-163) = ?",
-        "(-28) x 172 = ?",
-        "63 x (-120) = ?",
-        "(-29) x 285 = ?",
-        "54 x (-134) = ?"
+        "-6 x 3 = ?",
+        "4 x -8 = ?",
+        "0 x 9 = ?",
+        "-7 x -6 = ?",
+        "5 x 2 = ?",
+        "-3 x -8 = ?",
+        "7 x 0 = ?",
+        "-9 x 4 = ?",
+        "6 x -5 = ?",
+        "8 x 7 = ?"
     };
 
-    private int[] answers = { -2418, -4350, 7740, -8106, -4572, -8313, -4816, -7560, -8250, -7256 };
+    private int[] answers = { -18, -32, 0, 42, 10, 24, 0, -36, -30, 56 };
 
     private string filePath;
+    private string attemptsFilePath;
     private List<UserData> userList;
+    private List<AttemptData> attemptList;
 
     private void Awake()
     {
@@ -59,6 +61,7 @@ public class Level15 : MonoBehaviour
         }
 
         filePath = Application.persistentDataPath + "/userdata.json";
+        attemptsFilePath = Application.persistentDataPath + "/attempts.json";
 
         // Load existing user data if the file exists
         if (File.Exists(filePath))
@@ -70,6 +73,18 @@ public class Level15 : MonoBehaviour
         else
         {
             userList = new List<UserData>();
+        }
+
+        // Load attempt data from the separate file
+        if (File.Exists(attemptsFilePath))
+        {
+            string attemptsJson = File.ReadAllText(attemptsFilePath);
+            attemptList = JsonUtility.FromJson<AttemptDataList>(attemptsJson).attempts;
+            Debug.Log("Loaded " + attemptList.Count + " attempts from attempts.json.");
+        }
+        else
+        {
+            attemptList = new List<AttemptData>(); // Initialize empty list if file does not exist
         }
 
         audioSource = GetComponent<AudioSource>();
@@ -103,10 +118,9 @@ public class Level15 : MonoBehaviour
 
     public void AddScore(int amount)
     {
-
         if (audioSource != null && scoreSound != null)
         {
-            Debug.Log("Playing slice sound.");
+            Debug.Log("Playing score sound.");
             audioSource.PlayOneShot(scoreSound);
         }
         playerScore += amount;
@@ -155,6 +169,13 @@ public class Level15 : MonoBehaviour
         {
             audioSource.PlayOneShot(gameOverSound);
         }
+
+        // Record attempt on game over
+        int userId = PlayerPrefs.GetInt("LoggedInUserId");
+        AddAttempt(userId, 15); // Level 15
+
+        // Save attempt data
+        SaveAttemptsData();
     }
 
     public int GetCurrentAnswer()
@@ -186,11 +207,15 @@ public class Level15 : MonoBehaviour
             {
                 audioSource.PlayOneShot(levelCompleteSound);
             }
-            // Call UpdateUserLevel with the completed level (e.g., 15)
-            UpdateUserLevel(16);
 
-            // Save updated user data
+            // Update user level and save data
+            UpdateUserLevel(16);
             SaveUserData();
+
+            // Record the attempt for this level
+            int userId = PlayerPrefs.GetInt("LoggedInUserId");
+            AddAttempt(userId, 15); // Level 15
+            SaveAttemptsData();
         }
     }
 
@@ -214,15 +239,11 @@ public class Level15 : MonoBehaviour
 
     private void UpdateUserLevel(int completedLevel)
     {
-        // Get user ID from PlayerPrefs
         int userId = PlayerPrefs.GetInt("LoggedInUserId");
-
-        // Find the user by ID
         UserData foundUser = userList.Find(user => user.id == userId);
 
         if (foundUser != null)
         {
-            // Only update if the completed level is higher than the current level
             if (completedLevel > foundUser.currentLevel)
             {
                 foundUser.currentLevel = completedLevel;
@@ -239,12 +260,52 @@ public class Level15 : MonoBehaviour
         }
     }
 
+    private void AddAttempt(int userId, int level)
+    {
+        if (attemptList == null)
+        {
+            attemptList = new List<AttemptData>();
+        }
+
+        level = Mathf.Max(0, level - 1);
+
+        AttemptData existingAttempt = attemptList.Find(attempt => attempt.user_id == userId && attempt.level == level);
+
+        int attemptCount = 1;
+
+        if (existingAttempt != null)
+        {
+            attemptCount = existingAttempt.attempt + 1;
+            existingAttempt.attempt = attemptCount;
+            Debug.Log($"Attempt updated: User {userId}, Level {level}, Attempt #{attemptCount}");
+        }
+        else
+        {
+            existingAttempt = new AttemptData
+            {
+                attempt_id = attemptList.Count + 1,
+                level = level,
+                user_id = userId,
+                attempt = attemptCount
+            };
+
+            attemptList.Add(existingAttempt);
+            Debug.Log($"New attempt added: User {userId}, Level {level}, Attempt #{attemptCount}");
+        }
+    }
+
     private void SaveUserData()
     {
-        // Save updated user data back to JSON
         string json = JsonUtility.ToJson(new UserDataList { users = userList });
         File.WriteAllText(filePath, json);
         Debug.Log("User data saved to file.");
+    }
+
+    private void SaveAttemptsData()
+    {
+        string attemptsJson = JsonUtility.ToJson(new AttemptDataList { attempts = attemptList });
+        File.WriteAllText(attemptsFilePath, attemptsJson);
+        Debug.Log("Attempts data saved to file.");
     }
 
     [System.Serializable]
@@ -260,5 +321,20 @@ public class Level15 : MonoBehaviour
         public string username;
         public int age;
         public int currentLevel;
+    }
+
+    [System.Serializable]
+    public class AttemptDataList
+    {
+        public List<AttemptData> attempts;
+    }
+
+    [System.Serializable]
+    public class AttemptData
+    {
+        public int attempt_id;
+        public int level;
+        public int user_id;
+        public int attempt;
     }
 }

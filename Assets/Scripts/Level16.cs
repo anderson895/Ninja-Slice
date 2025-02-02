@@ -23,7 +23,6 @@ public class Level16 : MonoBehaviour
     public AudioClip backgroundMusic;
     private AudioSource audioSource;
 
-
     [Header("Game Data")]
     private int playerScore = 0;
     private int currentQuestionIndex = 0;
@@ -45,7 +44,9 @@ public class Level16 : MonoBehaviour
     private int[] answers = { 5, 6, 6, 5, 9, 9, 16, 9, 9, 8 };
 
     private string filePath;
+    private string attemptsFilePath;
     private List<UserData> userList;
+    private List<AttemptData> attemptList;
 
     private void Awake()
     {
@@ -60,6 +61,7 @@ public class Level16 : MonoBehaviour
         }
 
         filePath = Application.persistentDataPath + "/userdata.json";
+        attemptsFilePath = Application.persistentDataPath + "/attempts.json";
 
         // Load existing user data if the file exists
         if (File.Exists(filePath))
@@ -71,6 +73,18 @@ public class Level16 : MonoBehaviour
         else
         {
             userList = new List<UserData>();
+        }
+
+        // Load attempt data from the separate file
+        if (File.Exists(attemptsFilePath))
+        {
+            string attemptsJson = File.ReadAllText(attemptsFilePath);
+            attemptList = JsonUtility.FromJson<AttemptDataList>(attemptsJson).attempts;
+            Debug.Log("Loaded " + attemptList.Count + " attempts from attempts.json.");
+        }
+        else
+        {
+            attemptList = new List<AttemptData>(); // Initialize empty list if file does not exist
         }
 
         audioSource = GetComponent<AudioSource>();
@@ -106,7 +120,7 @@ public class Level16 : MonoBehaviour
     {
         if (audioSource != null && scoreSound != null)
         {
-            Debug.Log("Playing slice sound.");
+            Debug.Log("Playing score sound.");
             audioSource.PlayOneShot(scoreSound);
         }
         playerScore += amount;
@@ -136,7 +150,7 @@ public class Level16 : MonoBehaviour
         // Play score sound
         if (audioSource != null && scoreSound != null)
         {
-            Debug.Log("Playing slice sound.");
+            Debug.Log("Playing score sound.");
             audioSource.PlayOneShot(scoreSound);
         }
 
@@ -153,6 +167,13 @@ public class Level16 : MonoBehaviour
         PlayerManagement.isGameOver = true;
         Debug.Log("Game Over!");
         questionText.text = "Game Over!";
+
+        // Record the attempt for this user and level
+        int userId = PlayerPrefs.GetInt("LoggedInUserId");
+        AddAttempt(userId, 16); // Level 16
+
+        // Save attempt data
+        SaveAttemptsData();
     }
 
     public int GetCurrentAnswer()
@@ -187,8 +208,13 @@ public class Level16 : MonoBehaviour
             // Call UpdateUserLevel with the completed level (e.g., 16)
             UpdateUserLevel(17);
 
-            // Save updated user data
+            // Record the attempt for this user and level
+            int userId = PlayerPrefs.GetInt("LoggedInUserId");
+            AddAttempt(userId, 16); // Level 16
+
+            // Save updated user data and attempt data
             SaveUserData();
+            SaveAttemptsData();
         }
     }
 
@@ -237,12 +263,61 @@ public class Level16 : MonoBehaviour
         }
     }
 
+    private void AddAttempt(int userId, int level)
+    {
+        // Ensure attemptList is initialized
+        if (attemptList == null)
+        {
+            attemptList = new List<AttemptData>();
+        }
+
+        // Decrease the level by 1
+        level = Mathf.Max(0, level - 1); // Ensure the level doesn't go below 0
+
+        // Find the attempt data for the specific user and level
+        AttemptData existingAttempt = attemptList.Find(attempt => attempt.user_id == userId && attempt.level == level);
+
+        int attemptCount = 1;
+
+        // If the attempt data exists for this user and level, increment the attempt count
+        if (existingAttempt != null)
+        {
+            attemptCount = existingAttempt.attempt + 1; // Increment the attempt count
+            existingAttempt.attempt = attemptCount; // Update the attempt count for the existing attempt data
+            Debug.Log($"Attempt updated: User {userId}, Level {level}, Attempt #{attemptCount}");
+        }
+        else
+        {
+            // If no previous attempts exist, create a new entry
+            existingAttempt = new AttemptData
+            {
+                attempt_id = attemptList.Count + 1,
+                level = level,
+                user_id = userId,
+                attempt = attemptCount
+            };
+
+            attemptList.Add(existingAttempt); // Add the new attempt
+            Debug.Log($"New attempt added: User {userId}, Level {level}, Attempt #{attemptCount}");
+        }
+    }
+
     private void SaveUserData()
     {
         // Save updated user data back to JSON
         string json = JsonUtility.ToJson(new UserDataList { users = userList });
         File.WriteAllText(filePath, json);
         Debug.Log("User data saved to file.");
+    }
+
+    private void SaveAttemptsData()
+    {
+        // Convert the list of attempts to JSON format
+        string attemptsJson = JsonUtility.ToJson(new AttemptDataList { attempts = attemptList });
+
+        // Save the attempt data to the file
+        File.WriteAllText(attemptsFilePath, attemptsJson);
+        Debug.Log("Attempts data saved to file.");
     }
 
     [System.Serializable]
@@ -258,5 +333,20 @@ public class Level16 : MonoBehaviour
         public string username;
         public int age;
         public int currentLevel;
+    }
+
+    [System.Serializable]
+    public class AttemptDataList
+    {
+        public List<AttemptData> attempts;
+    }
+
+    [System.Serializable]
+    public class AttemptData
+    {
+        public int attempt_id;
+        public int level;
+        public int user_id;
+        public int attempt;
     }
 }

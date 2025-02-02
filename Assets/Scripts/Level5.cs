@@ -35,7 +35,7 @@ public class Level5 : MonoBehaviour
         "11 + -4 + -6 + 2 =  ?",
         "-10 + 6 + 3 + -5 = ?",
         "8 + -5 + -2 + 7 = ?",
-        "-7 + 11 + -9 + 5 = 1 ?",
+        "-7 + 11 + -9 + 5 = ?",
         "4 + -2 + -1 + 6 = ?",
         "-6 + 12 + -4 + 3 = ?",
         "9 + -8 + 7 + -3 = ?",
@@ -45,7 +45,9 @@ public class Level5 : MonoBehaviour
     private int[] answers = { -1, 2, 3, -6, 8, 0, 7, 5, 5, 0 };
 
     private string filePath;
+    private string attemptsFilePath;
     private List<UserData> userList;
+    private List<AttemptData> attemptList;
 
     private void Awake()
     {
@@ -60,6 +62,7 @@ public class Level5 : MonoBehaviour
         }
 
         filePath = Application.persistentDataPath + "/userdata.json";
+        attemptsFilePath = Application.persistentDataPath + "/attempts.json";
 
         // Load existing user data if the file exists
         if (File.Exists(filePath))
@@ -70,7 +73,19 @@ public class Level5 : MonoBehaviour
         }
         else
         {
-            userList = new List<UserData>();
+            userList = new List<UserData>(); // Initialize empty list if file does not exist
+        }
+
+        // Load attempt data if the file exists
+        if (File.Exists(attemptsFilePath))
+        {
+            string attemptsJson = File.ReadAllText(attemptsFilePath);
+            attemptList = JsonUtility.FromJson<AttemptDataList>(attemptsJson).attempts;
+            Debug.Log("Loaded " + attemptList.Count + " attempts from attempts.json.");
+        }
+        else
+        {
+            attemptList = new List<AttemptData>(); // Initialize empty list if file does not exist
         }
 
         audioSource = GetComponent<AudioSource>(); // Initialize AudioSource
@@ -154,6 +169,13 @@ public class Level5 : MonoBehaviour
         {
             audioSource.PlayOneShot(gameOverSound);
         }
+
+        // Record attempt
+        int userId = PlayerPrefs.GetInt("LoggedInUserId");
+        AddAttempt(userId, 5); // Level 5
+
+        // Save attempt data
+        SaveAttemptsData();
     }
 
     public int GetCurrentAnswer()
@@ -191,8 +213,13 @@ public class Level5 : MonoBehaviour
             // Call UpdateUserLevel with the completed level (e.g., 5)
             UpdateUserLevel(6);
 
+            // Record attempt
+            int userId = PlayerPrefs.GetInt("LoggedInUserId");
+            AddAttempt(userId, 6); // Level 6
+
             // Save updated user data
             SaveUserData();
+            SaveAttemptsData();
         }
     }
 
@@ -241,12 +268,50 @@ public class Level5 : MonoBehaviour
         }
     }
 
+    private void AddAttempt(int userId, int level)
+    {
+        // Ensure attemptList is initialized
+        if (attemptList == null)
+        {
+            attemptList = new List<AttemptData>();
+        }
+
+        // Find the attempt data for the specific user and level
+        AttemptData existingAttempt = attemptList.Find(attempt => attempt.user_id == userId && attempt.level == level);
+
+        if (existingAttempt != null)
+        {
+            existingAttempt.attempt++; // Increment attempt count if it already exists
+        }
+        else
+        {
+            // Create new attempt entry if none exists
+            AttemptData newAttempt = new AttemptData
+            {
+                attempt_id = attemptList.Count + 1,
+                level = level,
+                user_id = userId,
+                attempt = 1
+            };
+
+            attemptList.Add(newAttempt); // Add the new attempt
+        }
+
+        Debug.Log($"Attempt added/updated: User {userId}, Level {level}, Attempts: {existingAttempt?.attempt ?? 1}");
+    }
+
     private void SaveUserData()
     {
-        // Save updated user data back to JSON
         string json = JsonUtility.ToJson(new UserDataList { users = userList });
         File.WriteAllText(filePath, json);
         Debug.Log("User data saved to file.");
+    }
+
+    private void SaveAttemptsData()
+    {
+        string attemptsJson = JsonUtility.ToJson(new AttemptDataList { attempts = attemptList });
+        File.WriteAllText(attemptsFilePath, attemptsJson);
+        Debug.Log("Attempts data saved to file.");
     }
 
     [System.Serializable]
@@ -262,5 +327,20 @@ public class Level5 : MonoBehaviour
         public string username;
         public int age;
         public int currentLevel;
+    }
+
+    [System.Serializable]
+    public class AttemptDataList
+    {
+        public List<AttemptData> attempts;
+    }
+
+    [System.Serializable]
+    public class AttemptData
+    {
+        public int attempt_id;
+        public int level;
+        public int user_id;
+        public int attempt;
     }
 }
