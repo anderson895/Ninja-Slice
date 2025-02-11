@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using System.IO;
+using System;
 
 public class GameManager : MonoBehaviour
 {
@@ -79,7 +80,16 @@ public class GameManager : MonoBehaviour
         if (File.Exists(attemptsFilePath))
         {
             string attemptsJson = File.ReadAllText(attemptsFilePath);
-            attemptList = JsonUtility.FromJson<AttemptDataList>(attemptsJson).attempts;
+            try
+            {
+                attemptList = JsonUtility.FromJson<AttemptDataList>(attemptsJson).attempts;
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"An error occurred while parsing JSON: {ex.Message}");
+                attemptList = new List<AttemptData>(); // Initialize to an empty list to avoid null references
+            }
+
             Debug.Log("Loaded " + attemptList.Count + " attempts from attempts.json.");
         }
         else
@@ -207,12 +217,12 @@ public class GameManager : MonoBehaviour
 
         Debug.Log($"Question Index Updated: {currentQuestionIndex}");
 
-        if (currentQuestionIndex < questions.Length)
+       /* if (currentQuestionIndex < questions.Length)
         {
             UpdateUI();
         }
         else
-        {
+        {*/
             PlayerManagement.isVictory = true;
             questionText.text = "Level Complete!";
             Debug.Log("All questions answered. Level complete!");
@@ -229,7 +239,7 @@ public class GameManager : MonoBehaviour
             // Save the updated user data back to the file
             SaveUserData();
             SaveAttemptsData();
-        }
+        //}
     }
 
     private void UpdateUserLevel(int completedLevel)
@@ -275,14 +285,9 @@ public class GameManager : MonoBehaviour
         // Find the attempt data for the specific user and level
         AttemptData existingAttempt = attemptList.Find(attempt => attempt.user_id == userId && attempt.level == level);
 
-        int attemptCount = 1;
-
-        // If the attempt data exists for this user and level, increment the attempt count
+        // If the attempt data exists for this user and level, update the status
         if (existingAttempt != null)
         {
-            attemptCount = existingAttempt.attempt + 1; // Increment the attempt count
-            existingAttempt.attempt = attemptCount; // Update the attempt count for the existing attempt data
-
             // Update the appropriate attempt status
             if (status == "victory")
             {
@@ -293,7 +298,7 @@ public class GameManager : MonoBehaviour
                 existingAttempt.gameover_attempts++;
             }
 
-            Debug.Log($"Attempt updated: User {userId}, Level {level}, Attempt #{attemptCount}, Victory Attempts: {existingAttempt.victory_attempts}, Game Over Attempts: {existingAttempt.gameover_attempts}");
+            Debug.Log($"Attempt updated: User {userId}, Level {level}, Victory Attempts: {existingAttempt.victory_attempts}, Game Over Attempts: {existingAttempt.gameover_attempts}");
         }
         else
         {
@@ -303,13 +308,12 @@ public class GameManager : MonoBehaviour
                 attempt_id = attemptList.Count + 1,
                 level = level,
                 user_id = userId,
-                attempt = attemptCount,
                 victory_attempts = (status == "victory") ? 1 : 0,
                 gameover_attempts = (status == "gameover") ? 1 : 0
             };
 
             attemptList.Add(existingAttempt); // Add the new attempt
-            Debug.Log($"New attempt added: User {userId}, Level {level}, Attempt #{attemptCount}, Victory Attempts: {existingAttempt.victory_attempts}, Game Over Attempts: {existingAttempt.gameover_attempts}");
+            Debug.Log($"New attempt added: User {userId}, Level {level}, Victory Attempts: {existingAttempt.victory_attempts}, Game Over Attempts: {existingAttempt.gameover_attempts}");
         }
     }
 
@@ -358,19 +362,19 @@ public class GameManager : MonoBehaviour
         public List<UserData> users;
     }
 
+    // Wrapper class for JSON serialization of a list of attempts
+    [System.Serializable]
+    public class AttemptDataList
+    {
+        public List<AttemptData> attempts;
+    }
+
     [System.Serializable]
     public class UserData
     {
         public int id;
         public string username;
-        public int age;
         public int currentLevel;
-    }
-
-    [System.Serializable]
-    public class AttemptDataList
-    {
-        public List<AttemptData> attempts;
     }
 
     [System.Serializable]
@@ -379,8 +383,7 @@ public class GameManager : MonoBehaviour
         public int attempt_id;
         public int level;
         public int user_id;
-        public int attempt;
-        public int victory_attempts; // Separate field for victory attempts
-        public int gameover_attempts; // Separate field for game over attempts
+        public int victory_attempts;
+        public int gameover_attempts;
     }
 }

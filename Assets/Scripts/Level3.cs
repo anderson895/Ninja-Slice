@@ -1,8 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
-using System.IO;
 using System.Collections.Generic;
+using System.IO;
+using System;
 
 public class Level3 : MonoBehaviour
 {
@@ -17,13 +17,6 @@ public class Level3 : MonoBehaviour
     public Image heart2;
     public Image heart3;
 
-    [Header("Sound Effects")]
-    public AudioClip sliceSound;      // Sound for score increase
-    public AudioClip gameOverSound;   // Sound for game over
-    public AudioClip levelCompleteSound; // Sound for level completion
-    public AudioClip backgroundMusic;
-    private AudioSource audioSource;  // AudioSource to play sounds
-
     [Header("Game Data")]
     private int playerScore = 0;
     private int currentQuestionIndex = 0;
@@ -37,9 +30,9 @@ public class Level3 : MonoBehaviour
         "5 + -7 = ?",
         "-12 + 6 = ?",
         "11 + -9 = ?",
-        "-5 + 8 = ?",
-        "6 + -2 = ?",
-        "-4 + 7 = ?"
+        "-5 + 8= ?",
+        "6 + -2= ?",
+        "-4 + 7= ?"
     };
 
     private int[] answers = { 5, 3, 5, -4, -2, -6, 2, 3, 4, 3 };
@@ -48,6 +41,13 @@ public class Level3 : MonoBehaviour
     private string attemptsFilePath;
     private List<UserData> userList;
     private List<AttemptData> attemptList; // List to store attempt data
+
+    [Header("Sound Effects")]
+    public AudioClip sliceSound;
+    public AudioClip gameOverSound;
+    public AudioClip levelCompleteSound;
+    public AudioClip backgroundMusic;
+    private AudioSource audioSource;
 
     private void Awake()
     {
@@ -73,14 +73,23 @@ public class Level3 : MonoBehaviour
         }
         else
         {
-            userList = new List<UserData>();
+            userList = new List<UserData>(); // Initialize empty list if file does not exist
         }
 
         // Load attempt data from the separate file
         if (File.Exists(attemptsFilePath))
         {
             string attemptsJson = File.ReadAllText(attemptsFilePath);
-            attemptList = JsonUtility.FromJson<AttemptDataList>(attemptsJson).attempts;
+            try
+            {
+                attemptList = JsonUtility.FromJson<AttemptDataList>(attemptsJson).attempts;
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"An error occurred while parsing JSON: {ex.Message}");
+                attemptList = new List<AttemptData>(); // Initialize to an empty list to avoid null references
+            }
+
             Debug.Log("Loaded " + attemptList.Count + " attempts from attempts.json.");
         }
         else
@@ -115,7 +124,6 @@ public class Level3 : MonoBehaviour
         {
             Debug.LogError("Background music clip is not assigned in the Inspector.");
         }
-
     }
 
     public void AddScore(int amount)
@@ -177,21 +185,20 @@ public class Level3 : MonoBehaviour
         Debug.Log("Game Over!");
         questionText.text = "Game Over!";
 
+        // Get the user ID from PlayerPrefs (assuming user is logged in)
+        int userId = PlayerPrefs.GetInt("LoggedInUserId");
+
+        // Record the attempt for this user and level
+        AddAttempt(userId, 4, "gameover");
+
+        // Save attempt data
+        SaveAttemptsData();
+
         // Play game over sound
         if (audioSource != null && gameOverSound != null)
         {
             audioSource.PlayOneShot(gameOverSound);
         }
-
-        // Record the attempt for this user and level
-        int userId = PlayerPrefs.GetInt("LoggedInUserId");
-        int completedLevel = 3; // Level 3 is completed
-
-        // Add attempt
-        AddAttempt(userId, completedLevel);
-
-        // Save attempt data
-        SaveAttemptsData();
     }
 
     public int GetCurrentAnswer()
@@ -210,56 +217,29 @@ public class Level3 : MonoBehaviour
 
         Debug.Log($"Question Index Updated: {currentQuestionIndex}");
 
-       if (currentQuestionIndex < questions.Length)
+        /* if (currentQuestionIndex < questions.Length)
+         {
+             UpdateUI();
+         }
+         else
+         {*/
+        PlayerManagement.isVictory = true;
+        questionText.text = "Level Complete!";
+        Debug.Log("All questions answered. Level complete!");
+
+        // Play level complete sound
+        if (audioSource != null && levelCompleteSound != null)
         {
-            UpdateUI();
-        }
-        else
-        {
-            PlayerManagement.isVictory = true;
-            questionText.text = "Level Complete!";
-            Debug.Log("All questions answered. Level complete!");
-
-            // Play level complete sound
-            if (audioSource != null && levelCompleteSound != null)
-            {
-                audioSource.PlayOneShot(levelCompleteSound);
-            }
-
-            // Call UpdateUserLevel with the completed level (e.g., 3)
-            UpdateUserLevel(4);
-
-            // Save updated user data
-            SaveUserData();
-
-            // Record the attempt for this user and level
-            int userId = PlayerPrefs.GetInt("LoggedInUserId");
-            int completedLevel = 3; // Level 3 is completed
-
-            // Add attempt
-            AddAttempt(userId, completedLevel);
-
-            // Save attempt data
-            SaveAttemptsData();
-       }
-    }
-
-    private void UpdateUI()
-    {
-        if (scoreText != null)
-        {
-            scoreText.text = $"Score: {playerScore}";
+            audioSource.PlayOneShot(levelCompleteSound);
         }
 
-        if (questionText != null && currentQuestionIndex < questions.Length)
-        {
-            questionText.text = questions[currentQuestionIndex];
-            Debug.Log($"Updated Question: {questions[currentQuestionIndex]}");
-        }
-        else
-        {
-            Debug.LogWarning("No more questions to display or QuestionText is null.");
-        }
+        // Pass the completed level to the update method
+        UpdateUserLevel(4); // Adjust to match the actual level number
+
+        // Save the updated user data back to the file
+        SaveUserData();
+        SaveAttemptsData();
+        //}
     }
 
     private void UpdateUserLevel(int completedLevel)
@@ -282,6 +262,8 @@ public class Level3 : MonoBehaviour
             {
                 Debug.Log($"Completed level ({completedLevel}) is not higher than current level ({foundUser.currentLevel}). No update made.");
             }
+            // Track attempts
+            AddAttempt(userId, completedLevel, "victory");
         }
         else
         {
@@ -289,7 +271,7 @@ public class Level3 : MonoBehaviour
         }
     }
 
-    private void AddAttempt(int userId, int level)
+    private void AddAttempt(int userId, int level, string status)
     {
         // Ensure attemptList is initialized
         if (attemptList == null)
@@ -297,17 +279,26 @@ public class Level3 : MonoBehaviour
             attemptList = new List<AttemptData>();
         }
 
+        // Decrease the level by 1
+        level = Mathf.Max(0, level - 1); // Ensure the level doesn't go below 0
+
         // Find the attempt data for the specific user and level
         AttemptData existingAttempt = attemptList.Find(attempt => attempt.user_id == userId && attempt.level == level);
 
-        int attemptCount = 1;
-
-        // If the attempt data exists for this user and level, increment the attempt count
+        // If the attempt data exists for this user and level, update the status
         if (existingAttempt != null)
         {
-            attemptCount = existingAttempt.attempt + 1; // Increment the attempt count
-            existingAttempt.attempt = attemptCount; // Update the attempt count for the existing attempt data
-            Debug.Log($"Attempt updated: User {userId}, Level {level}, Attempt #{attemptCount}");
+            // Update the appropriate attempt status
+            if (status == "victory")
+            {
+                existingAttempt.victory_attempts++;
+            }
+            else if (status == "gameover")
+            {
+                existingAttempt.gameover_attempts++;
+            }
+
+            Debug.Log($"Attempt updated: User {userId}, Level {level}, Victory Attempts: {existingAttempt.victory_attempts}, Game Over Attempts: {existingAttempt.gameover_attempts}");
         }
         else
         {
@@ -317,45 +308,61 @@ public class Level3 : MonoBehaviour
                 attempt_id = attemptList.Count + 1,
                 level = level,
                 user_id = userId,
-                attempt = attemptCount
+                victory_attempts = (status == "victory") ? 1 : 0,
+                gameover_attempts = (status == "gameover") ? 1 : 0
             };
 
             attemptList.Add(existingAttempt); // Add the new attempt
-            Debug.Log($"New attempt added: User {userId}, Level {level}, Attempt #{attemptCount}");
+            Debug.Log($"New attempt added: User {userId}, Level {level}, Victory Attempts: {existingAttempt.victory_attempts}, Game Over Attempts: {existingAttempt.gameover_attempts}");
         }
     }
 
     private void SaveUserData()
     {
-        // Save updated user data back to JSON
+        // Convert the list of users to JSON format
         string json = JsonUtility.ToJson(new UserDataList { users = userList });
+
+        // Save the updated user data to the file
         File.WriteAllText(filePath, json);
         Debug.Log("User data saved to file.");
     }
 
     private void SaveAttemptsData()
     {
-        // Save the attempt data to the file
+        // Convert the list of attempts to JSON format
         string attemptsJson = JsonUtility.ToJson(new AttemptDataList { attempts = attemptList });
+
+        // Save the attempt data to the file
         File.WriteAllText(attemptsFilePath, attemptsJson);
-        Debug.Log("Attempt data saved to file.");
+        Debug.Log("Attempts data saved to file.");
     }
 
+    private void UpdateUI()
+    {
+        if (scoreText != null)
+        {
+            scoreText.text = $"Score: {playerScore}";
+        }
+
+        if (questionText != null && currentQuestionIndex < questions.Length)
+        {
+            questionText.text = questions[currentQuestionIndex];
+            Debug.Log($"Updated Question: {questions[currentQuestionIndex]}");
+        }
+        else
+        {
+            Debug.LogWarning("No more questions to display or QuestionText is null.");
+        }
+    }
+
+    // Wrapper class for JSON serialization of a list of users
     [System.Serializable]
     public class UserDataList
     {
         public List<UserData> users;
     }
 
-    [System.Serializable]
-    public class UserData
-    {
-        public int id;
-        public string username;
-        public int age;
-        public int currentLevel;
-    }
-
+    // Wrapper class for JSON serialization of a list of attempts
     [System.Serializable]
     public class AttemptDataList
     {
@@ -363,11 +370,20 @@ public class Level3 : MonoBehaviour
     }
 
     [System.Serializable]
+    public class UserData
+    {
+        public int id;
+        public string username;
+        public int currentLevel;
+    }
+
+    [System.Serializable]
     public class AttemptData
     {
         public int attempt_id;
-        public int user_id;
         public int level;
-        public int attempt;
+        public int user_id;
+        public int victory_attempts;
+        public int gameover_attempts;
     }
 }

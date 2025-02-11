@@ -103,13 +103,14 @@ public class DisplayUserData : MonoBehaviour
                         totalAttempts += attempt.victory_attempts;  // Add victory attempts
                     }
 
-                    // If there are gameover attempts, add them regardless
+                    // Add gameover attempts regardless of the victory attempts
                     totalAttempts += attempt.gameover_attempts;  // Add gameover attempts
                 }
             }
 
-            // Only add the user if they have victory or gameover attempts greater than 0 for this level
-            if (hasVictory || totalAttempts > 0)
+            // Only add the user if they have at least one victory attempt for this level
+            // Gameover attempts do not qualify a user for display unless they have victory attempts
+            if (hasVictory)
             {
                 usersWithAttempts.Add(new UserWithAttempts(user, totalAttempts));
             }
@@ -148,6 +149,7 @@ public class DisplayUserData : MonoBehaviour
         // Start looping the text
         StartCoroutine(LoopText());
     }
+
 
     // Helper class to store user and their attempts
     [System.Serializable]

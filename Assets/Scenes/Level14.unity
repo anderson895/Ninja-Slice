@@ -805,7 +805,7 @@ MonoBehaviour:
   heart1: {fileID: 2145526161}
   heart2: {fileID: 1174279411}
   heart3: {fileID: 1810338518}
-  scoreSound: {fileID: 8300000, guid: d53b4f03baf076c4d8fd5233d6c86e84, type: 3}
+  sliceSound: {fileID: 0}
   gameOverSound: {fileID: 8300000, guid: a684a72015073b244b334d98a5f2cbe7, type: 3}
   levelCompleteSound: {fileID: 8300000, guid: 4ae71764efae1f04ba8dfeb71d8fe072, type: 3}
   backgroundMusic: {fileID: 8300000, guid: 15dd53ac731dc494ea7872a48c78c97b, type: 3}
@@ -4103,7 +4103,7 @@ GameObject:
   - component: {fileID: 1650977494}
   - component: {fileID: 1650977497}
   - component: {fileID: 1650977496}
-  - component: {fileID: 1650977495}
+  - component: {fileID: 1650977498}
   m_Layer: 5
   m_Name: LeaderBoardManager
   m_TagString: Untagged
@@ -4130,23 +4130,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1650977495
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1650977493}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0c70277fe387cd49a5105e66290744a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rankText: {fileID: 295258911}
-  nameText: {fileID: 655714961}
-  attemptText: {fileID: 545461798}
-  scrollView: {fileID: 517664702}
-  selectedLevelText: {fileID: 0}
 --- !u!114 &1650977496
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4189,6 +4172,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1650977493}
   m_CullTransparentMesh: 1
+--- !u!114 &1650977498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1650977493}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b48f887f6df78ed4c86ad0a2ee7c82a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rankText: {fileID: 295258911}
+  nameText: {fileID: 655714961}
+  attemptText: {fileID: 545461798}
+  scrollView: {fileID: 517664702}
+  selectedLevelText: {fileID: 2123440743}
 --- !u!1 &1697898878
 GameObject:
   m_ObjectHideFlags: 0
@@ -5361,7 +5361,7 @@ GameObject:
   - component: {fileID: 2147268138}
   - component: {fileID: 2147268141}
   - component: {fileID: 2147268140}
-  - component: {fileID: 2147268139}
+  - component: {fileID: 2147268142}
   m_Layer: 5
   m_Name: LeaderBoardManager
   m_TagString: Untagged
@@ -5388,23 +5388,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2147268139
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2147268137}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0c70277fe387cd49a5105e66290744a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rankText: {fileID: 1790594662}
-  nameText: {fileID: 59191067}
-  attemptText: {fileID: 20353546}
-  scrollView: {fileID: 1344311565}
-  selectedLevelText: {fileID: 0}
 --- !u!114 &2147268140
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5447,6 +5430,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2147268137}
   m_CullTransparentMesh: 1
+--- !u!114 &2147268142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2147268137}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b48f887f6df78ed4c86ad0a2ee7c82a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rankText: {fileID: 1790594662}
+  nameText: {fileID: 59191067}
+  attemptText: {fileID: 20353546}
+  scrollView: {fileID: 1344311565}
+  selectedLevelText: {fileID: 2123440743}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

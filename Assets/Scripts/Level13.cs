@@ -171,7 +171,7 @@ public class Level13 : MonoBehaviour
 
         // Record attempt data
         int userId = PlayerPrefs.GetInt("LoggedInUserId");
-        AddAttempt(userId, 13); // Level 13
+        AddAttempt(userId, 14); // Level 13
 
         // Save attempt data
         SaveAttemptsData();

@@ -1224,7 +1224,7 @@ GameObject:
   - component: {fileID: 462854883}
   - component: {fileID: 462854886}
   - component: {fileID: 462854885}
-  - component: {fileID: 462854884}
+  - component: {fileID: 462854887}
   m_Layer: 5
   m_Name: LeaderBoardManager
   m_TagString: Untagged
@@ -1251,23 +1251,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &462854884
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 462854882}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0c70277fe387cd49a5105e66290744a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rankText: {fileID: 1890386995}
-  nameText: {fileID: 349513210}
-  attemptText: {fileID: 592743319}
-  scrollView: {fileID: 1328464147}
-  selectedLevelText: {fileID: 0}
 --- !u!114 &462854885
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1310,6 +1293,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 462854882}
   m_CullTransparentMesh: 1
+--- !u!114 &462854887
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 462854882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b48f887f6df78ed4c86ad0a2ee7c82a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rankText: {fileID: 1890386995}
+  nameText: {fileID: 349513210}
+  attemptText: {fileID: 592743319}
+  scrollView: {fileID: 1328464147}
+  selectedLevelText: {fileID: 1850258103}
 --- !u!1 &466187768
 GameObject:
   m_ObjectHideFlags: 0
@@ -5356,7 +5356,7 @@ GameObject:
   - component: {fileID: 2142344974}
   - component: {fileID: 2142344977}
   - component: {fileID: 2142344976}
-  - component: {fileID: 2142344975}
+  - component: {fileID: 2142344978}
   m_Layer: 5
   m_Name: LeaderBoardManager
   m_TagString: Untagged
@@ -5383,23 +5383,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2142344975
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2142344973}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0c70277fe387cd49a5105e66290744a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rankText: {fileID: 721527710}
-  nameText: {fileID: 1551681110}
-  attemptText: {fileID: 677577793}
-  scrollView: {fileID: 1271279492}
-  selectedLevelText: {fileID: 0}
 --- !u!114 &2142344976
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5442,6 +5425,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2142344973}
   m_CullTransparentMesh: 1
+--- !u!114 &2142344978
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2142344973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b48f887f6df78ed4c86ad0a2ee7c82a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rankText: {fileID: 721527710}
+  nameText: {fileID: 1551681110}
+  attemptText: {fileID: 677577793}
+  scrollView: {fileID: 1271279492}
+  selectedLevelText: {fileID: 1850258103}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

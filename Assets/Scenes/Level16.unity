@@ -2639,7 +2639,7 @@ GameObject:
   - component: {fileID: 1140132646}
   - component: {fileID: 1140132649}
   - component: {fileID: 1140132648}
-  - component: {fileID: 1140132647}
+  - component: {fileID: 1140132650}
   m_Layer: 5
   m_Name: LeaderBoardManager
   m_TagString: Untagged
@@ -2666,23 +2666,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1140132647
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1140132645}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0c70277fe387cd49a5105e66290744a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rankText: {fileID: 230687316}
-  nameText: {fileID: 1423743409}
-  attemptText: {fileID: 797294401}
-  scrollView: {fileID: 1949221337}
-  selectedLevelText: {fileID: 0}
 --- !u!114 &1140132648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2725,6 +2708,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1140132645}
   m_CullTransparentMesh: 1
+--- !u!114 &1140132650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1140132645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b48f887f6df78ed4c86ad0a2ee7c82a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rankText: {fileID: 230687316}
+  nameText: {fileID: 1423743409}
+  attemptText: {fileID: 797294401}
+  scrollView: {fileID: 1949221337}
+  selectedLevelText: {fileID: 206122713}
 --- !u!1 &1150273531
 GameObject:
   m_ObjectHideFlags: 0
@@ -4151,7 +4151,7 @@ GameObject:
   - component: {fileID: 1624331292}
   - component: {fileID: 1624331295}
   - component: {fileID: 1624331294}
-  - component: {fileID: 1624331293}
+  - component: {fileID: 1624331296}
   m_Layer: 5
   m_Name: LeaderBoardManager
   m_TagString: Untagged
@@ -4178,23 +4178,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1624331293
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1624331291}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0c70277fe387cd49a5105e66290744a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rankText: {fileID: 1800255203}
-  nameText: {fileID: 1992830689}
-  attemptText: {fileID: 2111875815}
-  scrollView: {fileID: 555317306}
-  selectedLevelText: {fileID: 0}
 --- !u!114 &1624331294
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4237,6 +4220,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1624331291}
   m_CullTransparentMesh: 1
+--- !u!114 &1624331296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1624331291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b48f887f6df78ed4c86ad0a2ee7c82a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rankText: {fileID: 1800255203}
+  nameText: {fileID: 1992830689}
+  attemptText: {fileID: 2111875815}
+  scrollView: {fileID: 555317306}
+  selectedLevelText: {fileID: 206122713}
 --- !u!1 &1649236349
 GameObject:
   m_ObjectHideFlags: 0
@@ -5023,7 +5023,7 @@ MonoBehaviour:
   heart1: {fileID: 703977826}
   heart2: {fileID: 467383129}
   heart3: {fileID: 1507984357}
-  scoreSound: {fileID: 8300000, guid: d53b4f03baf076c4d8fd5233d6c86e84, type: 3}
+  sliceSound: {fileID: 0}
   gameOverSound: {fileID: 8300000, guid: a684a72015073b244b334d98a5f2cbe7, type: 3}
   levelCompleteSound: {fileID: 8300000, guid: 4ae71764efae1f04ba8dfeb71d8fe072, type: 3}
   backgroundMusic: {fileID: 8300000, guid: 15dd53ac731dc494ea7872a48c78c97b, type: 3}

@@ -747,8 +747,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: NewBehaviourScript, Assembly-CSharp
+      - m_Target: {fileID: 566338045}
+        m_TargetAssemblyTypeName: PlayerManagement, Assembly-CSharp
         m_MethodName: PauseGame
         m_Mode: 1
         m_Arguments:
@@ -879,8 +879,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: NewBehaviourScript, Assembly-CSharp
+      - m_Target: {fileID: 566338045}
+        m_TargetAssemblyTypeName: PlayerManagement, Assembly-CSharp
         m_MethodName: GotoMenu
         m_Mode: 1
         m_Arguments:
@@ -1055,7 +1055,7 @@ GameObject:
   - component: {fileID: 564424136}
   - component: {fileID: 564424139}
   - component: {fileID: 564424138}
-  - component: {fileID: 564424137}
+  - component: {fileID: 564424140}
   m_Layer: 5
   m_Name: LeaderBoardManager
   m_TagString: Untagged
@@ -1082,23 +1082,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &564424137
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 564424135}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0c70277fe387cd49a5105e66290744a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rankText: {fileID: 760379878}
-  nameText: {fileID: 1880549538}
-  attemptText: {fileID: 1664032169}
-  scrollView: {fileID: 1468000918}
-  selectedLevelText: {fileID: 0}
 --- !u!114 &564424138
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1141,6 +1124,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 564424135}
   m_CullTransparentMesh: 1
+--- !u!114 &564424140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 564424135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b48f887f6df78ed4c86ad0a2ee7c82a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rankText: {fileID: 760379878}
+  nameText: {fileID: 1880549538}
+  attemptText: {fileID: 1664032169}
+  scrollView: {fileID: 1468000918}
+  selectedLevelText: {fileID: 149440151}
 --- !u!1 &566338044
 GameObject:
   m_ObjectHideFlags: 0
@@ -3104,7 +3104,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 566338045}
         m_TargetAssemblyTypeName: PlayerManagement, Assembly-CSharp
         m_MethodName: GotoMenu
         m_Mode: 1
@@ -3278,7 +3278,7 @@ GameObject:
   - component: {fileID: 1494140955}
   - component: {fileID: 1494140958}
   - component: {fileID: 1494140957}
-  - component: {fileID: 1494140956}
+  - component: {fileID: 1494140959}
   m_Layer: 5
   m_Name: LeaderBoardManager
   m_TagString: Untagged
@@ -3305,23 +3305,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1494140956
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1494140954}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0c70277fe387cd49a5105e66290744a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rankText: {fileID: 1178887436}
-  nameText: {fileID: 6416112}
-  attemptText: {fileID: 2060343869}
-  scrollView: {fileID: 928861396}
-  selectedLevelText: {fileID: 0}
 --- !u!114 &1494140957
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3364,6 +3347,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1494140954}
   m_CullTransparentMesh: 1
+--- !u!114 &1494140959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1494140954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b48f887f6df78ed4c86ad0a2ee7c82a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rankText: {fileID: 1178887436}
+  nameText: {fileID: 6416112}
+  attemptText: {fileID: 2060343869}
+  scrollView: {fileID: 928861396}
+  selectedLevelText: {fileID: 149440151}
 --- !u!1 &1496073466
 GameObject:
   m_ObjectHideFlags: 0
@@ -4066,7 +4066,7 @@ MonoBehaviour:
   heart1: {fileID: 1205420425}
   heart2: {fileID: 1984205005}
   heart3: {fileID: 1940367363}
-  scoreSound: {fileID: 8300000, guid: d53b4f03baf076c4d8fd5233d6c86e84, type: 3}
+  sliceSound: {fileID: 0}
   gameOverSound: {fileID: 8300000, guid: a684a72015073b244b334d98a5f2cbe7, type: 3}
   levelCompleteSound: {fileID: 8300000, guid: 4ae71764efae1f04ba8dfeb71d8fe072, type: 3}
   backgroundMusic: {fileID: 8300000, guid: 15dd53ac731dc494ea7872a48c78c97b, type: 3}
@@ -5397,8 +5397,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: NewBehaviourScript, Assembly-CSharp
+      - m_Target: {fileID: 566338045}
+        m_TargetAssemblyTypeName: PlayerManagement, Assembly-CSharp
         m_MethodName: ResumeGame
         m_Mode: 1
         m_Arguments:
