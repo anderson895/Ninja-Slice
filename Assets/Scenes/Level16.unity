@@ -1148,14 +1148,14 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1395806707}
+  - {fileID: 1552016497}
   - {fileID: 1971167407}
   - {fileID: 150437337}
   - {fileID: 2065939087}
   - {fileID: 284009300}
   - {fileID: 623960105}
   - {fileID: 1727499329}
-  - {fileID: 1552016497}
-  - {fileID: 1395806707}
   m_Father: {fileID: 876204192}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1474,8 +1474,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: NewBehaviourScript, Assembly-CSharp
+      - m_Target: {fileID: 70500035}
+        m_TargetAssemblyTypeName: PlayerManagement, Assembly-CSharp
         m_MethodName: ResumeGame
         m_Mode: 1
         m_Arguments:
@@ -1681,8 +1681,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: NewBehaviourScript, Assembly-CSharp
+      - m_Target: {fileID: 70500035}
+        m_TargetAssemblyTypeName: PlayerManagement, Assembly-CSharp
         m_MethodName: ReplayLevel
         m_Mode: 1
         m_Arguments:
@@ -2776,7 +2776,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dea835892c8eec34893fbb0a14dfec5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneName: level2
+  sceneName: level17
 --- !u!114 &1150273534
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3248,7 +3248,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Proceed on level 3
+  m_Text: Proceed on level 17
 --- !u!222 &1238407078
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3957,8 +3957,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: NewBehaviourScript, Assembly-CSharp
+      - m_Target: {fileID: 70500035}
+        m_TargetAssemblyTypeName: PlayerManagement, Assembly-CSharp
         m_MethodName: GotoMenu
         m_Mode: 1
         m_Arguments:
@@ -5319,7 +5319,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 70500035}
         m_TargetAssemblyTypeName: PlayerManagement, Assembly-CSharp
         m_MethodName: GotoMenu
         m_Mode: 1

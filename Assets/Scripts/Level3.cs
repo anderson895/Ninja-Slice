@@ -217,12 +217,12 @@ public class Level3 : MonoBehaviour
 
         Debug.Log($"Question Index Updated: {currentQuestionIndex}");
 
-        /* if (currentQuestionIndex < questions.Length)
+        if (currentQuestionIndex < questions.Length)
          {
              UpdateUI();
          }
          else
-         {*/
+         {
         PlayerManagement.isVictory = true;
         questionText.text = "Level Complete!";
         Debug.Log("All questions answered. Level complete!");
@@ -239,7 +239,7 @@ public class Level3 : MonoBehaviour
         // Save the updated user data back to the file
         SaveUserData();
         SaveAttemptsData();
-        //}
+        }
     }
 
     private void UpdateUserLevel(int completedLevel)

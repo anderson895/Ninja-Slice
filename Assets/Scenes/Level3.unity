@@ -697,7 +697,7 @@ RectTransform:
   m_Father: {fileID: 1192643203}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 0.9994107}
+  m_AnchorMax: {x: 1, y: 0.98572206}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1153,7 +1153,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Proceed on level 3
+  m_Text: Proceed on level 4
 --- !u!222 &301268301
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1394,8 +1394,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: NewBehaviourScript, Assembly-CSharp
+      - m_Target: {fileID: 1226922393}
+        m_TargetAssemblyTypeName: PlayerManagement, Assembly-CSharp
         m_MethodName: ReplayLevel
         m_Mode: 1
         m_Arguments:
@@ -1475,13 +1475,13 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2063258496}
+  - {fileID: 513670481}
+  - {fileID: 1218280302}
   - {fileID: 1175248749}
   - {fileID: 1884549981}
   - {fileID: 1228844701}
   - {fileID: 2076048976}
   - {fileID: 260560101}
-  - {fileID: 513670481}
-  - {fileID: 1218280302}
   m_Father: {fileID: 1713774025}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -3627,7 +3627,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dea835892c8eec34893fbb0a14dfec5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneName: level2
+  sceneName: level4
 --- !u!114 &1340351668
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4753,7 +4753,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000016413589}
+  m_AnchoredPosition: {x: 0, y: 0.0005469593}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &2021030108
@@ -5022,7 +5022,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 208501285}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.9994107
+  m_Size: 0.98572206
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

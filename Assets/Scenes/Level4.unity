@@ -2156,7 +2156,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dea835892c8eec34893fbb0a14dfec5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneName: level2
+  sceneName: level5
 --- !u!114 &948212299
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2377,12 +2377,12 @@ RectTransform:
   m_Children:
   - {fileID: 1501806452}
   - {fileID: 860686365}
+  - {fileID: 337958895}
+  - {fileID: 144544666}
   - {fileID: 1375112556}
   - {fileID: 784899460}
   - {fileID: 1748801474}
   - {fileID: 793612442}
-  - {fileID: 337958895}
-  - {fileID: 144544666}
   m_Father: {fileID: 1562414425}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -3639,7 +3639,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Proceed on level 3
+  m_Text: Proceed on level 5
 --- !u!222 &1561183345
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4925,8 +4925,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: NewBehaviourScript, Assembly-CSharp
+      - m_Target: {fileID: 566338045}
+        m_TargetAssemblyTypeName: PlayerManagement, Assembly-CSharp
         m_MethodName: ReplayLevel
         m_Mode: 1
         m_Arguments:
