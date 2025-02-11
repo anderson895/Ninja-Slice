@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
-using System.Collections;
 using UnityEngine.UI;
+using System.Collections;
 
 public class DisplayUserData : MonoBehaviour
 {
@@ -11,7 +11,6 @@ public class DisplayUserData : MonoBehaviour
         public int id;
         public string username;
         public int age;
-
     }
 
     [System.Serializable]
@@ -21,8 +20,8 @@ public class DisplayUserData : MonoBehaviour
         public int level;
         public int user_id;
         public int attempt;
-
-
+        public int victory_attempts;  // Add victory_attempts to the Attempt class
+        public int gameover_attempts;
     }
 
     [System.Serializable]
@@ -71,7 +70,6 @@ public class DisplayUserData : MonoBehaviour
         DisplayUserAttempts();
     }
 
-
     void DisplayUserAttempts()
     {
         // Clear existing text in UI components
@@ -92,18 +90,26 @@ public class DisplayUserData : MonoBehaviour
         foreach (var user in userData.users)
         {
             int totalAttempts = 0;
+            bool hasVictory = false;
 
-            // Count attempts for each user that match the selected level
+            // Count victory and gameover attempts for each user that match the selected level
             foreach (var attempt in attemptData.attempts)
             {
                 if (attempt.user_id == user.id && attempt.level == level)
                 {
-                    totalAttempts += attempt.attempt; // Sum attempts for the user
+                    if (attempt.victory_attempts > 0)
+                    {
+                        hasVictory = true;
+                        totalAttempts += attempt.victory_attempts;  // Add victory attempts
+                    }
+
+                    // If there are gameover attempts, add them regardless
+                    totalAttempts += attempt.gameover_attempts;  // Add gameover attempts
                 }
             }
 
-            // Only add the user if they have attempts greater than 0 for this level
-            if (totalAttempts > 0)
+            // Only add the user if they have victory or gameover attempts greater than 0 for this level
+            if (hasVictory || totalAttempts > 0)
             {
                 usersWithAttempts.Add(new UserWithAttempts(user, totalAttempts));
             }
@@ -112,14 +118,14 @@ public class DisplayUserData : MonoBehaviour
         // Sort users by total attempts (ascending)
         usersWithAttempts.Sort((x, y) => x.totalAttempts.CompareTo(y.totalAttempts));
 
-        // Log the users with attempts in array format to the console
+        // Log the users with total attempts in array format to the console
         string userAttemptsArrayFormat = "[";
         foreach (var userWithAttempts in usersWithAttempts)
         {
             userAttemptsArrayFormat += $"{{Username: \"{userWithAttempts.user.username}\", TotalAttempts: {userWithAttempts.totalAttempts}}}, ";
         }
         userAttemptsArrayFormat = userAttemptsArrayFormat.TrimEnd(new char[] { ',', ' ' }) + "]";
-        Debug.Log("Users with attempts: " + userAttemptsArrayFormat);
+        Debug.Log("Users with total attempts: " + userAttemptsArrayFormat);
 
         // Display the sorted users for the selected level
         int rank = 1;
@@ -142,9 +148,6 @@ public class DisplayUserData : MonoBehaviour
         // Start looping the text
         StartCoroutine(LoopText());
     }
-
-
-
 
     // Helper class to store user and their attempts
     [System.Serializable]

@@ -9,7 +9,8 @@ public class PlayerManagement : MonoBehaviour
     public GameObject gameOverScreen;
     public GameObject pauseMenuScreen;
     public GameObject victoryScreen;
-    public Leaderboard leaderboard; // Reference to the Leaderboard script
+    public GameObject leaderboardVictory;
+    public GameObject leaderboardGameOver;
 
     public void Awake()
     {
@@ -35,14 +36,14 @@ public class PlayerManagement : MonoBehaviour
     {
         Time.timeScale = 0;
         gameOverScreen.SetActive(true);
-        leaderboard.ReloadData(); // Reload and display the latest leaderboard
+        ReloadGameOverLeaderboard();
     }
 
     private void HandleVictory()
     {
         Time.timeScale = 0;
         victoryScreen.SetActive(true);
-        leaderboard.ReloadData(); // Reload and display the latest leaderboard
+        ReloadVictoryLeaderboard();
     }
 
     public void ReplayLevel()
@@ -85,5 +86,18 @@ public class PlayerManagement : MonoBehaviour
         gameOverScreen.SetActive(false);
         pauseMenuScreen.SetActive(false);
         victoryScreen.SetActive(false);
+    }
+
+    // Reload Leaderboards
+    private void ReloadGameOverLeaderboard()
+    {
+        leaderboardGameOver.SetActive(false);
+        leaderboardGameOver.SetActive(true);
+    }
+
+    private void ReloadVictoryLeaderboard()
+    {
+        leaderboardVictory.SetActive(false);
+        leaderboardVictory.SetActive(true);
     }
 }

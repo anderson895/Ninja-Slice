@@ -178,11 +178,8 @@ public class GameManager : MonoBehaviour
         // Get the user ID from PlayerPrefs (assuming user is logged in)
         int userId = PlayerPrefs.GetInt("LoggedInUserId");
 
-        // Find the completed level. You can adjust this based on how you manage levels in your game.
-        int completedLevel = 2;
-
         // Record the attempt for this user and level
-        AddAttempt(userId, completedLevel);
+        AddAttempt(userId, 2, "gameover");
 
         // Save attempt data
         SaveAttemptsData();
@@ -193,7 +190,6 @@ public class GameManager : MonoBehaviour
             audioSource.PlayOneShot(gameOverSound);
         }
     }
-
 
     public int GetCurrentAnswer()
     {
@@ -211,13 +207,12 @@ public class GameManager : MonoBehaviour
 
         Debug.Log($"Question Index Updated: {currentQuestionIndex}");
 
-     if (currentQuestionIndex < questions.Length)
+        if (currentQuestionIndex < questions.Length)
         {
             UpdateUI();
         }
         else
         {
-      
             PlayerManagement.isVictory = true;
             questionText.text = "Level Complete!";
             Debug.Log("All questions answered. Level complete!");
@@ -258,7 +253,7 @@ public class GameManager : MonoBehaviour
                 Debug.Log($"Completed level ({completedLevel}) is not higher than current level ({foundUser.currentLevel}). No update made.");
             }
             // Track attempts
-            AddAttempt(userId, completedLevel);
+            AddAttempt(userId, completedLevel, "victory");
         }
         else
         {
@@ -266,7 +261,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void AddAttempt(int userId, int level)
+    private void AddAttempt(int userId, int level, string status)
     {
         // Ensure attemptList is initialized
         if (attemptList == null)
@@ -287,7 +282,18 @@ public class GameManager : MonoBehaviour
         {
             attemptCount = existingAttempt.attempt + 1; // Increment the attempt count
             existingAttempt.attempt = attemptCount; // Update the attempt count for the existing attempt data
-            Debug.Log($"Attempt updated: User {userId}, Level {level}, Attempt #{attemptCount}");
+
+            // Update the appropriate attempt status
+            if (status == "victory")
+            {
+                existingAttempt.victory_attempts++;
+            }
+            else if (status == "gameover")
+            {
+                existingAttempt.gameover_attempts++;
+            }
+
+            Debug.Log($"Attempt updated: User {userId}, Level {level}, Attempt #{attemptCount}, Victory Attempts: {existingAttempt.victory_attempts}, Game Over Attempts: {existingAttempt.gameover_attempts}");
         }
         else
         {
@@ -297,16 +303,15 @@ public class GameManager : MonoBehaviour
                 attempt_id = attemptList.Count + 1,
                 level = level,
                 user_id = userId,
-                attempt = attemptCount
+                attempt = attemptCount,
+                victory_attempts = (status == "victory") ? 1 : 0,
+                gameover_attempts = (status == "gameover") ? 1 : 0
             };
 
             attemptList.Add(existingAttempt); // Add the new attempt
-            Debug.Log($"New attempt added: User {userId}, Level {level}, Attempt #{attemptCount}");
+            Debug.Log($"New attempt added: User {userId}, Level {level}, Attempt #{attemptCount}, Victory Attempts: {existingAttempt.victory_attempts}, Game Over Attempts: {existingAttempt.gameover_attempts}");
         }
     }
-
-
-
 
     private void SaveUserData()
     {
@@ -359,7 +364,7 @@ public class GameManager : MonoBehaviour
         public int id;
         public string username;
         public int age;
-        public int currentLevel; 
+        public int currentLevel;
     }
 
     [System.Serializable]
@@ -375,5 +380,7 @@ public class GameManager : MonoBehaviour
         public int level;
         public int user_id;
         public int attempt;
+        public int victory_attempts; // Separate field for victory attempts
+        public int gameover_attempts; // Separate field for game over attempts
     }
 }
