@@ -29,7 +29,7 @@ public class Level13 : MonoBehaviour
     private int playerLives = 3; // Total hearts/lives
 
     private string[] questions = {
-        "-0 × 5 = ?",
+        "0 × 5 = ?",
         "8 × 0 = ?",
         "0 × -3 = ?",
         "-4 × 0 = ?",

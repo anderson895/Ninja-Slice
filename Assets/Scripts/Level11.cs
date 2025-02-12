@@ -22,19 +22,19 @@ public class Level11 : MonoBehaviour
     private int playerLives = 3; // Total hearts/lives
 
     private string[] questions = {
-        "3 + 7 = ?",
-        "8 + 4 = ?",
-        "6 + 5 = ?",
-        "10 + 2 = ?",
-        "12 + 9 = ?",
-        "5 + 3 = ?",
-        "15 + 4 = ?",
-        "14 + 6 = ?",
-        "11 + 8 = ?",
-        "17 + 9 = ?"
+        "1 x 3 = ?",
+        "4 x 7 = ?",
+        "2 x 9 = ?",
+        "6 x 5 = ?",
+        "8 x 2 = ?",
+        "3 x 6 = ?",
+        "7 x 4 = ?",
+        "9 x 1 = ?",
+        "5 x 8 = ?",
+        "7 x 3 = ?"
     };
 
-    private int[] answers = { 10, 12, 11, 12, 21, 8, 19, 20, 19, 26 };
+    private int[] answers = { 3, 28, 18, 30, 16, 18, 28, 9, 40, 21 };
 
     private string filePath;
     private string attemptsFilePath;
