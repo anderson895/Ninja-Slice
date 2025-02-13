@@ -34,7 +34,7 @@ public class Level18 : MonoBehaviour
      "48 ÷ −8 = ?"
  };
 
-    private int[] answers = { -9, -9, -9, -8, -8, -5, -12, -6, -19, -6 };
+    private int[] answers = { -9, -9, -9, -16, -8, -5, -12, -6, -12, -6 };
 
     private string filePath;
     private string attemptsFilePath;

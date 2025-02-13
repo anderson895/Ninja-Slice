@@ -81,7 +81,7 @@ public class MenuScript : MonoBehaviour
             int currentLevel = loggedInUser.currentLevel;
 
             // Check if the selected level is higher than the current level
-            if (index-4 > currentLevel)
+           /* if (index-4 > currentLevel)
             {
                 // Show alert message
                 ShowAlert("Cannot load level higher than current level.");
@@ -90,7 +90,7 @@ public class MenuScript : MonoBehaviour
 
                 Debug.Log("Cannot load level higher than current level. The current level is " + currentLevel);
                 return; // Prevent loading the level if it's higher than the current level
-            }
+            }*/
 
             // Load the selected level if it's allowed
             SceneManager.LoadScene(index);

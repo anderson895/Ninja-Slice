@@ -230,7 +230,7 @@ public class Level17 : MonoBehaviour
         // Save the updated user data back to the file
         SaveUserData();
         SaveAttemptsData();
-        }
+       }
     }
 
     private void UpdateUserLevel(int completedLevel)

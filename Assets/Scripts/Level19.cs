@@ -34,7 +34,7 @@ public class Level19 : MonoBehaviour
     "0 ÷ -3 = ?"
 };
 
-    private int[] answers = { 12, -8, -7, 0, 9, -6, 18, -16, -12, 0 };
+    private int[] answers = { 12, -8, -7, 0, 9, -6, 18, -8, -12, 0 };
 
 
     private string filePath;

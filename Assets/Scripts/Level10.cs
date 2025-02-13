@@ -34,7 +34,7 @@ public class Level10 : MonoBehaviour
     "40 - 6 - (-7) - (-2) = ?"
 };
 
-    private int[] answers = { -3, 16, -25, 21, -20, 45, -25, 36, -37, 43 };
+    private int[] answers = { -3, 16, -25, 21, -18, 45, -25, 36, -37, 43 };
 
 
     private string filePath;

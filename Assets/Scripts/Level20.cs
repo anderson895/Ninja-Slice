@@ -34,7 +34,7 @@ public class Level20 : MonoBehaviour
     "14 − (−7) ÷ −1 × 2 + 3 ?"
 };
 
-    private int[] answers = { 3, -18, -17, 10, 9, 27, -21, -16, -19, 3 };
+    private int[] answers = { 3, -18, -17, 10, 9, 32, -21, -16, -19, 3 };
 
 
     private string filePath;
